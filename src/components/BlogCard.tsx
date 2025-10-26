@@ -1,6 +1,7 @@
 import { Calendar, User, Clock } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
 
 interface BlogPost {
   id: number;
@@ -69,9 +70,12 @@ const BlogCard = ({ post, index }: BlogCardProps) => {
               })}
             </time>
           </div>
-          <button className="text-primary hover:text-accent transition-colors font-medium text-sm">
+          <Link
+            to={`/blog/${post.id}`}
+            className="text-primary hover:text-accent transition-colors font-medium text-sm"
+          >
             Read More →
-          </button>
+          </Link>
         </div>
       </CardFooter>
     </Card>
