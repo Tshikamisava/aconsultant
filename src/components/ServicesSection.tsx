@@ -1,30 +1,51 @@
-import { Wrench, Ruler, Layers, Settings } from "lucide-react";
+import {
+  Wrench,
+  Ruler,
+  Layers,
+  Settings,
+  Home,
+  MapPin,
+  Zap,
+  Hammer,
+} from "lucide-react";
 import pipingImage from "@/assets/services-piping.jpg";
 
 const services = [
   {
+    icon: Home,
+    title: "Architectural Design",
+    description:
+      "We deliver creative and functional architectural designs tailored to both commercial and residential projects. Our services focus on crafting visually appealing and practical solutions that meet client needs, enhance usability, and align with modern design standards.",
+  },
+  {
+    icon: MapPin,
+    title: "Civil Design",
+    description:
+      "We specialise in detailed draughting and design for civil engineering projects, including infrastructure such as commercial and residential buildings, roads, highways, and process plants. Our services ensure precise and comprehensive plans that support efficient design, planning, and execution of complex projects.",
+  },
+  {
+    icon: Zap,
+    title: "Electrical Design",
+    description:
+      "We offer specialised draughting and design support for electrical engineering projects across various industries, including mining process plants, renewable energy, roads, highways, and building services. Our expertise extends to creating accurate layout drawings for MV & HV reticulation systems and substations ranging from 6.6kV to 400kV.",
+  },
+  {
     icon: Wrench,
     title: "Piping Design",
     description:
-      "Precision in the layout and design of piping systems for various industrial applications.",
+      "With extensive experience in petrochemical facilities and process plants, we offer reliable draughting support to your piping engineering team. Our accurate and detailed designs for piping systems ensure precise layouts that prioritise functionality, efficiency, and adherence to engineering standards.",
   },
   {
-    icon: Ruler,
-    title: "Technical Draughting",
+    icon: Hammer,
+    title: "Mechanical Design",
     description:
-      "Detailed technical drawings and documentation for engineering projects.",
+      "We provide advanced draughting and design solutions for mechanical systems, supporting your teams in optimising performance, reliability, and efficiency. Our expertise ensures each system is designed to meet industry standards, delivering long-lasting, high-quality results.",
   },
   {
     icon: Layers,
-    title: "3D Modeling",
+    title: "Structural Design",
     description:
-      "Advanced 3D modeling solutions for complex engineering structures.",
-  },
-  {
-    icon: Settings,
-    title: "Project Coordination",
-    description:
-      "Seamless coordination between design teams and project stakeholders.",
+      "We offer detailed draughting and design services to support structural engineering across industries. Our expertise ensures every design maintains structural integrity, adheres to industry standards, and is optimised for functionality to meet unique project requirements.",
   },
 ];
 
