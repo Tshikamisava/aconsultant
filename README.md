@@ -2,6 +2,26 @@
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
+## 📧 Email Backend
+
+This project uses a **custom Node.js email backend** instead of third-party services.
+
+### Quick Setup (3 steps):
+1. Generate Gmail App Password: https://myaccount.google.com/apppasswords
+2. Add password to `server/.env`
+3. Run `.\start-email-server.ps1`
+
+**� Complete Guide**: See [EMAIL_QUICKSTART.md](./EMAIL_QUICKSTART.md)
+
+**Features:**
+- ✅ No OAuth token issues
+- ✅ No "Invalid grant" errors
+- ✅ Fully self-hosted
+- ✅ Rate limiting & security
+- ✅ Beautiful HTML emails
+
+---
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh

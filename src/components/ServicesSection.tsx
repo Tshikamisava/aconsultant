@@ -1,24 +1,23 @@
 import {
-  Wrench,
-  Ruler,
-  Layers,
-  Settings,
   Home,
-  MapPin,
+  Construction,
+  Layers,
   Zap,
-  Hammer,
+  PenTool,
+  Boxes,
 } from "lucide-react";
 import pipingImage from "@/assets/services-piping.jpg";
+import architecturalIcon from "@/assets/icon1.png";
 
 const services = [
   {
-    icon: Home,
+    customIcon: architecturalIcon,
     title: "Architectural Design",
     description:
       "We deliver creative and functional architectural designs tailored to both commercial and residential projects. Our services focus on crafting visually appealing and practical solutions that meet client needs, enhance usability, and align with modern design standards.",
   },
   {
-    icon: MapPin,
+    icon: Construction,
     title: "Civil Design",
     description:
       "We specialise in detailed draughting and design for civil engineering projects, including infrastructure such as commercial and residential buildings, roads, highways, and process plants. Our services ensure precise and comprehensive plans that support efficient design, planning, and execution of complex projects.",
@@ -30,13 +29,13 @@ const services = [
       "We offer specialised draughting and design support for electrical engineering projects across various industries, including mining process plants, renewable energy, roads, highways, and building services. Our expertise extends to creating accurate layout drawings for MV & HV reticulation systems and substations ranging from 6.6kV to 400kV.",
   },
   {
-    icon: Wrench,
+    icon: PenTool,
     title: "Piping Design",
     description:
       "With extensive experience in petrochemical facilities and process plants, we offer reliable draughting support to your piping engineering team. Our accurate and detailed designs for piping systems ensure precise layouts that prioritise functionality, efficiency, and adherence to engineering standards.",
   },
   {
-    icon: Hammer,
+    icon: Boxes,
     title: "Mechanical Design",
     description:
       "We provide advanced draughting and design solutions for mechanical systems, supporting your teams in optimising performance, reliability, and efficiency. Our expertise ensures each system is designed to meet industry standards, delivering long-lasting, high-quality results.",
@@ -71,7 +70,15 @@ const ServicesSection = () => {
               style={{ animationDelay: `${index * 100}ms` }}
             >
               <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-medium">
-                <service.icon className="w-8 h-8 text-primary-foreground" />
+                {service.customIcon ? (
+                  <img 
+                    src={service.customIcon} 
+                    alt={service.title}
+                    className="w-12 h-12 object-contain brightness-0 invert"
+                  />
+                ) : service.icon ? (
+                  <service.icon className="w-8 h-8 text-primary-foreground" />
+                ) : null}
               </div>
               <h3 className="text-xl font-semibold mb-3 text-foreground group-hover:text-primary transition-colors">
                 {service.title}

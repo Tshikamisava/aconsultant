@@ -1,14 +1,57 @@
 import { useState } from "react";
+import { Target, Users, Eye, Flag } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Users, Wrench, Eye, Target } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 
-const AboutSection = () => {
-  const [activeTab, setActiveTab] = useState("who-we-are");
+const About = () => {
+  const [activeTab, setActiveTab] = useState("who");
+
+  const tabs = [
+    {
+      value: "who",
+      label: "Who We Are",
+      icon: Users,
+      content: {
+        title: "Expert Engineering Consultants",
+        description:
+          "At A Consultant, we are a team of highly skilled engineering professionals dedicated to providing innovative solutions for complex technical challenges. With years of combined experience across various engineering disciplines, we bring expertise, precision, and commitment to every project.",
+      },
+    },
+    {
+      value: "what",
+      label: "What We Do",
+      icon: Target,
+      content: {
+        title: "Comprehensive Engineering Solutions",
+        description:
+          "We deliver tailored engineering consulting services that help companies meet tight deadlines and solve complex challenges. From initial concept to final implementation, we provide technical expertise, project management, and innovative problem-solving to ensure your success.",
+      },
+    },
+    {
+      value: "vision",
+      label: "Vision",
+      icon: Eye,
+      content: {
+        title: "Shaping the Future of Engineering",
+        description:
+          "We envision a future where engineering thrives on innovation, technical mastery, and an unwavering commitment to quality. We aim to be at the forefront of engineering innovation, setting new industry standards and fostering lasting partnerships through efficiency, reliability, and excellence.",
+      },
+    },
+    {
+      value: "mission",
+      label: "Mission",
+      icon: Flag,
+      content: {
+        title: "A Brief Story About The Solutions",
+        description:
+          "At A Consultant, we're shaping a future where engineering thrives on innovation, technical mastery, and an unwavering commitment to quality. We consistently strive to be at the forefront of engineering innovation, delivering tailored and precise solutions that enable engineering companies to tackle urgent project deadlines and solve complex challenges. We aim to set new industry standards, fostering lasting partnerships through efficiency, reliability, and a relentless pursuit of excellence.",
+      },
+    },
+  ];
 
   return (
-    <section id="about" className="py-24 bg-gradient-light relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-mesh opacity-30" />
-      <div className="container mx-auto px-6 relative z-10">
+    <section id="about" className="py-24 bg-secondary/30">
+      <div className="container mx-auto px-6">
         <div className="text-center mb-16 animate-fade-in-up">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
             About Us
@@ -18,97 +61,42 @@ const AboutSection = () => {
           </p>
         </div>
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full max-w-4xl mx-auto grid-cols-4 mb-12 h-auto bg-card/50 backdrop-blur-sm border border-border/50 p-2">
-            <TabsTrigger value="who-we-are" className="text-base py-4 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground transition-all duration-300 flex items-center gap-2">
-              <Users className="w-4 h-4" />
-              Who We Are
-            </TabsTrigger>
-            <TabsTrigger value="what-we-do" className="text-base py-4 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground transition-all duration-300 flex items-center gap-2">
-              <Wrench className="w-4 h-4" />
-              What We Do
-            </TabsTrigger>
-            <TabsTrigger value="vision" className="text-base py-4 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground transition-all duration-300 flex items-center gap-2">
-              <Eye className="w-4 h-4" />
-              Vision
-            </TabsTrigger>
-            <TabsTrigger value="mission" className="text-base py-4 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground transition-all duration-300 flex items-center gap-2">
-              <Target className="w-4 h-4" />
-              Mission
-            </TabsTrigger>
+          <TabsList className="grid w-full max-w-3xl mx-auto grid-cols-2 md:grid-cols-4 mb-12 h-auto bg-background shadow-lg">
+            {tabs.map((tab) => (
+              <TabsTrigger
+                key={tab.value}
+                value={tab.value}
+                className="flex items-center gap-2 py-4 text-base data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+              >
+                <tab.icon size={20} />
+                <span className="hidden sm:inline">{tab.label}</span>
+              </TabsTrigger>
+            ))}
           </TabsList>
 
-          <TabsContent
-            value="who-we-are"
-            className="animate-fade-in-up max-w-5xl mx-auto"
-          >
-            <div className="bg-card/80 backdrop-blur-lg rounded-2xl p-8 md:p-12 shadow-strong border border-border/50 hover:shadow-glow transition-all duration-500 hover:scale-[1.02]">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Who We Are
-              </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                At A Consultant, we're a team of passionate engineering professionals
-                dedicated to delivering exceptional technical draughting solutions. With
-                years of combined experience in the industry, we bring expertise,
-                precision, and innovation to every project we undertake.
-              </p>
-            </div>
-          </TabsContent>
-
-          <TabsContent
-            value="what-we-do"
-            className="animate-fade-in-up max-w-5xl mx-auto"
-          >
-            <div className="bg-card/80 backdrop-blur-lg rounded-2xl p-8 md:p-12 shadow-strong border border-border/50 hover:shadow-glow transition-all duration-500 hover:scale-[1.02]">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                What We Do
-              </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                We specialize in providing comprehensive technical draughting services
-                for engineering companies. From piping design to structural layouts, we
-                deliver precise, detailed solutions that help our clients meet tight
-                deadlines and solve complex engineering challenges with confidence.
-              </p>
-            </div>
-          </TabsContent>
-
-          <TabsContent
-            value="vision"
-            className="animate-fade-in-up max-w-5xl mx-auto"
-          >
-            <div className="bg-card/80 backdrop-blur-lg rounded-2xl p-8 md:p-12 shadow-strong border border-border/50 hover:shadow-glow transition-all duration-500 hover:scale-[1.02]">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Vision
-              </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                We're building a future where engineering thrives on innovation,
-                expertise, and quality. We aim to be at the forefront of engineering
-                innovation, consistently setting new industry standards and fostering
-                lasting partnerships through our commitment to excellence.
-              </p>
-            </div>
-          </TabsContent>
-
-          <TabsContent
-            value="mission"
-            className="animate-fade-in-up max-w-5xl mx-auto"
-          >
-            <div className="bg-card/80 backdrop-blur-lg rounded-2xl p-8 md:p-12 shadow-strong border border-border/50 hover:shadow-glow transition-all duration-500 hover:scale-[1.02]">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Mission
-              </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                At A Consultant, we're shaping a future where engineering thrives on
-                innovation, technical mastery, and an unwavering commitment to quality.
-                We deliver precise, tailored solutions that enable companies to tackle
-                urgent deadlines and solve complex challenges, setting new standards in
-                efficiency, reliability, and excellence.
-              </p>
-            </div>
-          </TabsContent>
+          {tabs.map((tab) => (
+            <TabsContent key={tab.value} value={tab.value} className="animate-fade-in">
+              <Card className="max-w-4xl mx-auto border-none shadow-xl">
+                <CardContent className="p-8 md:p-12 space-y-6">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="p-3 bg-primary/10 rounded-lg">
+                      <tab.icon size={32} className="text-primary" />
+                    </div>
+                    <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+                      {tab.content.title}
+                    </h2>
+                  </div>
+                  <p className="text-lg text-muted-foreground leading-relaxed">
+                    {tab.content.description}
+                  </p>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          ))}
         </Tabs>
       </div>
     </section>
   );
 };
 
-export default AboutSection;
+export default About;

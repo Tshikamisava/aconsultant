@@ -79,16 +79,16 @@ const HeroSlideshow = () => {
               {slides[currentSlide].title.split(' ').slice(1).join(' ')}
             </span>
           </h1>
-          <p className="text-xl md:text-2xl mb-8 text-white/95 drop-shadow-lg animate-fade-in-up [animation-delay:200ms] opacity-0 [animation-fill-mode:forwards]">
+            <p className="text-xl md:text-2xl mb-8 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] animate-fade-in-up [animation-delay:200ms] [animation-fill-mode:forwards]">
             {slides[currentSlide].subtitle}
-          </p>
-          <Button
+            </p>
+            <Button
             size="lg"
             onClick={scrollToAbout}
-            className="bg-white text-primary hover:bg-white/90 hover:scale-105 shadow-glow text-lg px-8 py-6 transition-all duration-300 animate-fade-in-up [animation-delay:400ms] opacity-0 [animation-fill-mode:forwards]"
-          >
+            className="bg-primary text-white hover:bg-primary/90 hover:scale-105 shadow-glow text-lg px-8 py-6 transition-all duration-300 animate-fade-in-up [animation-delay:400ms] [animation-fill-mode:forwards]"
+            >
             Discover More
-          </Button>
+            </Button>
         </div>
       </div>
 

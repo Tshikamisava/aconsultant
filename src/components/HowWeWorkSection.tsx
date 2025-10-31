@@ -3,6 +3,11 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import workflowImage from "@/assets/workflow.jpg";
 import qualityImage from "@/assets/quality.jpg";
+import teamCollabImage from "@/assets/hero-1.jpg";
+import resourceImage from "@/assets/hero-2.jpg";
+import documentationImage from "@/assets/hero-3.jpg";
+import qgisImage from "@/assets/services-piping.jpg";
+import technologyImage from "@/assets/contact-info.jpg";
 
 const keyFactors = [
   {
@@ -36,6 +41,106 @@ const keyFactors = [
         title: "Client Feedback",
         description:
           "Incorporate client feedback into the revision process to ensure satisfaction and address any concerns promptly.",
+      },
+    ],
+  },
+  {
+    number: "03",
+    title: "Team Collaboration",
+    image: teamCollabImage,
+    items: [
+      {
+        title: "Document Sharing",
+        description:
+          "Implement a cloud-based document management system to enable easy access to project files and designs.",
+      },
+      {
+        title: "Communication Tools and Meetings",
+        description:
+          "Use project management tools like Slack or Microsoft Teams for team collaboration, and hold daily or weekly meetings to review progress and plan next steps.",
+      },
+    ],
+  },
+  {
+    number: "04",
+    title: "Resource Management",
+    image: resourceImage,
+    items: [
+      {
+        title: "Technical Support",
+        description:
+          "Provide technical support for any issues related to software, hardware, or tools to minimise downtime.",
+      },
+      {
+        title: "Training and Development",
+        description:
+          "Offer ongoing training to keep the team updated on the latest design techniques and industry trends.",
+      },
+    ],
+  },
+  {
+    number: "05",
+    title: "Documentation and Reporting",
+    image: documentationImage,
+    items: [
+      {
+        title: "Progress Reports",
+        description:
+          "Create routine reports summarising project progress, resource utilisation, and any issues encountered.",
+      },
+      {
+        title: "Archiving",
+        description:
+          "Implement a system for archiving completed projects, making it easy to retrieve past work for reference or client requests.",
+      },
+    ],
+  },
+  {
+    number: "06",
+    title: "QGIS Integration Design",
+    image: qgisImage,
+    items: [
+      {
+        title: "Custom Map Design",
+        description:
+          "Site Analysis: Visualizing topography, terrain, and boundaries. Land Surveys: Precise mapping for boundaries and resources. Environmental Assessments: Identifying constraints and opportunities. Utility Mapping: Tracking infrastructure like pipelines and cables.",
+      },
+      {
+        title: "Geographical Data Integration",
+        description:
+          "Streamlining decision-making and site selection. Ensuring regulatory compliance. As a multi-disciplinary drafting and design firm, we leverage QGIS to provide seamless project support from concept to execution, enhancing efficiency across various engineering disciplines.",
+      },
+    ],
+  },
+  {
+    number: "07",
+    title: "Technology Integration",
+    image: technologyImage,
+    items: [
+      {
+        title: "CAD/BIM Standards",
+        description:
+          "Establish and maintain CAD and BIM standards across all projects to ensure consistency and quality.",
+      },
+      {
+        title: "Automation",
+        description:
+          "Explore opportunities for automation in repetitive tasks, such as drafting, to increase efficiency.",
+      },
+      {
+        title: "Systemised Libraries",
+        description:
+          "Development and management of design libraries to streamline and standardise processes.",
+      },
+      {
+        title: "2D to 3D Conversion",
+        description:
+          "Transforming traditional 2D designs into sophisticated 3D models for enhanced visualisation and accuracy.",
+      },
+      {
+        title: "BIM Optimisation",
+        description:
+          "Leveraging Building Information Management (BIM) 360 to improve design coordination and project execution.",
       },
     ],
   },
