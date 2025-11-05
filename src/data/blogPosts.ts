@@ -1,3 +1,11 @@
+// Import images properly for production build
+import servicesPipingImage from "@/assets/services-piping.jpg";
+import qualityImage from "@/assets/quality.jpg";
+import workflowImage from "@/assets/workflow.jpg";
+import hero1Image from "@/assets/hero-1.jpg";
+import hero2Image from "@/assets/hero-2.jpg";
+import hero3Image from "@/assets/hero-3.jpg";
+
 export const blogPosts = [
   {
     id: 1,
@@ -8,7 +16,7 @@ export const blogPosts = [
     date: "2024-10-15",
     category: "Piping Design",
     readTime: "5 min read",
-    image: "/src/assets/services-piping.jpg",
+    image: servicesPipingImage,
     content: `
       <h2>The Digital Revolution in Piping Design</h2>
       <p>The industrial engineering landscape is undergoing a transformative shift, with piping design at the forefront of this digital revolution. Advanced 3D modeling software and AI-powered tools are fundamentally changing how engineers approach complex piping systems, resulting in unprecedented efficiency gains and quality improvements.</p>
@@ -49,7 +57,7 @@ export const blogPosts = [
     date: "2024-10-08",
     category: "Quality Control",
     readTime: "7 min read",
-    image: "/src/assets/quality.jpg",
+    image: qualityImage,
     content: `
       <h2>The Foundation of Engineering Excellence</h2>
       <p>Quality control in technical draughting is not just a final checkpoint—it's an integral part of the entire design process. Proper QC procedures ensure that technical drawings are accurate, compliant, and ready for construction or manufacturing.</p>
@@ -119,7 +127,7 @@ export const blogPosts = [
     date: "2024-10-01",
     category: "Project Management",
     readTime: "6 min read",
-    image: "/src/assets/workflow.jpg",
+    image: workflowImage,
     content: `
       <h2>Balancing Speed and Quality in Engineering Projects</h2>
       <p>In today's fast-paced engineering environment, delivering projects on time while maintaining quality standards is one of the most challenging aspects of project management. However, with the right strategies and tools, it's entirely achievable.</p>
@@ -193,7 +201,7 @@ export const blogPosts = [
     date: "2024-09-24",
     category: "3D Modeling",
     readTime: "8 min read",
-    image: "/src/assets/hero-1.jpg",
+    image: hero1Image,
     content: `
       <h2>The Importance of Standardization in 3D Modeling</h2>
       <p>As engineering projects become increasingly complex and collaborative, adherence to 3D modeling standards has become crucial for ensuring project success, facilitating seamless data exchange, and maintaining consistency across teams and disciplines.</p>
@@ -269,7 +277,7 @@ export const blogPosts = [
     date: "2024-09-17",
     category: "Infrastructure",
     readTime: "5 min read",
-    image: "/src/assets/hero-2.jpg",
+    image: hero2Image,
     content: `
       <h2>The Foundation of Successful Infrastructure</h2>
       <p>Technical draughting is the backbone of infrastructure development, translating complex engineering designs into precise, actionable documentation that guides construction teams from groundbreaking to project completion.</p>
@@ -383,7 +391,7 @@ export const blogPosts = [
     date: "2024-09-10",
     category: "Innovation",
     readTime: "6 min read",
-    image: "/src/assets/hero-3.jpg",
+    image: hero3Image,
     content: `
       <h2>The New Era of Engineering Excellence</h2>
       <p>Digital transformation is no longer optional in the engineering industry—it's essential for staying competitive and delivering superior project outcomes. From artificial intelligence to cloud collaboration, innovative technologies are fundamentally changing how engineering work is performed.</p>
