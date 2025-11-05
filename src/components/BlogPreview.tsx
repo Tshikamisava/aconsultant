@@ -1,6 +1,9 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import BlogCard from "@/components/BlogCard";
+import servicesPipingImage from "@/assets/services-piping.jpg";
+import qualityImage from "@/assets/quality.jpg";
+import workflowImage from "@/assets/workflow.jpg";
 
 const featuredPosts = [
   {
@@ -11,7 +14,7 @@ const featuredPosts = [
     date: "2024-10-15",
     category: "Piping Design",
     readTime: "5 min read",
-    image: "/src/assets/services-piping.jpg",
+    image: servicesPipingImage,
   },
   {
     id: 2,
@@ -21,7 +24,7 @@ const featuredPosts = [
     date: "2024-10-08",
     category: "Quality Control",
     readTime: "7 min read",
-    image: "/src/assets/quality.jpg",
+    image: qualityImage,
   },
   {
     id: 3,
@@ -31,7 +34,7 @@ const featuredPosts = [
     date: "2024-10-01",
     category: "Project Management",
     readTime: "6 min read",
-    image: "/src/assets/workflow.jpg",
+    image: workflowImage,
   },
 ];
 

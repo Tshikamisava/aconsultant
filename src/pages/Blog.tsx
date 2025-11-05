@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Navigation from "@/components/Navigation";
 import BlogCard from "@/components/BlogCard";
 import { blogPosts } from "@/data/blogPosts";
+import servicesPipingImage from "@/assets/services-piping.jpg";
 
 const Blog = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
@@ -59,7 +60,7 @@ const Blog = () => {
             <div 
               className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat scale-105"
               style={{
-                backgroundImage: "url('/src/assets/services-piping.jpg')",
+                backgroundImage: `url(${servicesPipingImage})`,
               }}
             />
             <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/70" />
