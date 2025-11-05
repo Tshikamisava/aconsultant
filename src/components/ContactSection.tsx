@@ -105,10 +105,10 @@ const Contact = () => {
     <section id="contact" className="py-24 bg-secondary/30">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+          <h2 className="font-heading text-4xl md:text-5xl text-foreground mb-4 tracking-wide">
             Get In Touch
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="font-body text-xl text-muted-foreground max-w-2xl mx-auto font-light">
             Ready to start your next project? Contact us today
           </p>
         </div>
@@ -137,7 +137,7 @@ const Contact = () => {
           {/* Contact Form */}
           <Card className="animate-fade-in border-border shadow-lg">
             <CardContent className="p-8">
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form id="contact-form" onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
                     Your Name
@@ -225,7 +225,20 @@ const Contact = () => {
                   Let's discuss how we can help you achieve your engineering goals with our
                   expertise and innovative solutions.
                 </p>
-                <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90">
+                <Button 
+                  size="lg" 
+                  variant="secondary" 
+                  className="bg-white text-primary hover:bg-white/90"
+                  onClick={() => {
+                    const form = document.getElementById('contact-form');
+                    form?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // Focus on the first input after scrolling
+                    setTimeout(() => {
+                      const firstInput = form?.querySelector('input[name="from_name"]') as HTMLInputElement;
+                      firstInput?.focus();
+                    }, 500);
+                  }}
+                >
                   Schedule a Consultation
                 </Button>
               </CardContent>

@@ -1,9 +1,9 @@
-import express from 'express';
-import nodemailer from 'nodemailer';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import rateLimit from 'express-rate-limit';
-import helmet from 'helmet';
+const express = require('express');
+const nodemailer = require('nodemailer');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
 
 dotenv.config();
 
@@ -16,7 +16,7 @@ app.use(helmet());
 // CORS configuration - adjust origins for production
 app.use(cors({
   origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:5173', 'http://localhost:3000'],
-  methods: ['POST'],
+  methods: ['GET', 'POST'],
   credentials: true
 }));
 

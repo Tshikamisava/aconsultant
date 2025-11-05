@@ -27,32 +27,11 @@ const Index = () => {
         <BlogPreview />
         <ContactSection />
       </main>
-      <footer className="bg-gradient-to-r from-primary via-primary/90 to-accent text-primary-foreground py-12 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-mesh opacity-20" />
-        <div className="container mx-auto px-6 text-center relative z-10">
-          <div className="space-y-4">
-            <h3 className="text-2xl font-bold">A Consultant</h3>
-            <p className="text-sm opacity-90">
-              Engineering Excellence & Technical Draughting Services
-            </p>
-            <div className="flex justify-center gap-6 pt-4">
-              <a href="#home" className="hover:text-accent transition-colors story-link">
-                Home
-              </a>
-              <a href="#about" className="hover:text-accent transition-colors story-link">
-                About
-              </a>
-              <a href="#services" className="hover:text-accent transition-colors story-link">
-                Services
-              </a>
-              <a href="#contact" className="hover:text-accent transition-colors story-link">
-                Contact
-              </a>
-            </div>
-            <p className="text-sm pt-6 border-t border-primary-foreground/20 mt-6">
-              © {new Date().getFullYear()} A Consultant. All rights reserved.
-            </p>
-          </div>
+      <footer className="bg-primary text-primary-foreground py-8">
+        <div className="container mx-auto px-6 text-center">
+          <p className="text-sm">
+            © {new Date().getFullYear()} A Consultant. All rights reserved.
+          </p>
         </div>
       </footer>
       <AIAssistant />

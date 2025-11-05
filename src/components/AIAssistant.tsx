@@ -27,76 +27,83 @@ const AIAssistant = () => {
     setMessages(newMessages);
     setIsLoading(true);
 
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-chat`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-          },
-          body: JSON.stringify({ messages: newMessages }),
-        }
-      );
+    // Simulate typing delay
+    await new Promise(resolve => setTimeout(resolve, 500));
 
-      if (!response.ok || !response.body) {
-        throw new Error("Failed to get response");
-      }
+    // Generate response based on keywords
+    let response = generateResponse(userMessage.toLowerCase());
 
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let assistantMessage = "";
-      let buffer = "";
-
-      const processChunk = () => {
-        reader.read().then(({ done, value }) => {
-          if (done) {
-            setIsLoading(false);
-            return;
-          }
-
-          buffer += decoder.decode(value, { stream: true });
-          const lines = buffer.split("\n");
-          buffer = lines.pop() || "";
-
-          for (const line of lines) {
-            if (line.startsWith("data: ")) {
-              const data = line.slice(6);
-              if (data === "[DONE]") {
-                setIsLoading(false);
-                return;
-              }
-
-              try {
-                const parsed = JSON.parse(data);
-                const content = parsed.choices?.[0]?.delta?.content;
-                if (content) {
-                  assistantMessage += content;
-                  setMessages([...newMessages, { role: "assistant", content: assistantMessage }]);
-                }
-              } catch (e) {
-                console.error("Parse error:", e);
-              }
-            }
-          }
-
-          processChunk();
-        });
-      };
-
-      processChunk();
-    } catch (error) {
-      console.error("Chat error:", error);
-      setMessages([
-        ...newMessages,
-        {
-          role: "assistant",
-          content: "Sorry, I encountered an error. Please try again.",
-        },
-      ]);
-      setIsLoading(false);
+    // Simulate streaming effect
+    let assistantMessage = "";
+    const words = response.split(" ");
+    
+    for (let i = 0; i < words.length; i++) {
+      assistantMessage += (i > 0 ? " " : "") + words[i];
+      setMessages([...newMessages, { role: "assistant", content: assistantMessage }]);
+      await new Promise(resolve => setTimeout(resolve, 50));
     }
+
+    setIsLoading(false);
+  };
+
+  const generateResponse = (message: string): string => {
+    // Services related
+    if (message.includes("service") || message.includes("what do you do") || message.includes("offer")) {
+      return "We offer comprehensive technical draughting and engineering services including: Piping Design, 3D Modeling, Technical Drawing, Project Management, and Quality Control. Our team specializes in delivering precise, industry-standard documentation for industrial and infrastructure projects. Would you like to know more about any specific service?";
+    }
+    
+    // Piping design
+    if (message.includes("piping") || message.includes("pipe")) {
+      return "Our piping design services include detailed piping layouts, isometric drawings, material specifications, and stress analysis. We use advanced 3D modeling software like AutoCAD Plant 3D and AVEVA E3D to create accurate designs that reduce project timelines by up to 40%. We ensure all designs meet industry standards like ASME and ISO.";
+    }
+    
+    // 3D Modeling
+    if (message.includes("3d") || message.includes("model")) {
+      return "We provide professional 3D modeling services using industry-standard software. Our models include full Product Manufacturing Information (PMI), comply with ISO and ASME standards, and are optimized for construction and manufacturing. We deliver clash-free designs with automated drawing generation and material take-offs.";
+    }
+    
+    // Quality
+    if (message.includes("quality") || message.includes("standard")) {
+      return "Quality is at the heart of everything we do. We follow rigorous QC procedures including multi-stage reviews, standards compliance checking, and automated validation. Our drawings meet all relevant industry standards (ISO, ASME, BS) and undergo comprehensive quality checks before delivery.";
+    }
+    
+    // Contact/Quote
+    if (message.includes("contact") || message.includes("quote") || message.includes("price") || message.includes("cost")) {
+      return "I'd be happy to help you get in touch! You can reach us through the contact form on this page, or scroll down to the 'Get in Touch' section. For project quotes, please provide details about your project scope, timeline, and any specific requirements. Our team typically responds within 24 hours.";
+    }
+    
+    // Experience/About
+    if (message.includes("experience") || message.includes("about") || message.includes("who are you")) {
+      return "A Consultant is a leading technical draughting and engineering consultancy specializing in piping design, 3D modeling, and project documentation. We have extensive experience across industrial, infrastructure, and commercial projects. Our team combines technical expertise with cutting-edge technology to deliver exceptional results on time and within budget.";
+    }
+    
+    // Timeline/Deadline
+    if (message.includes("how long") || message.includes("timeline") || message.includes("deadline") || message.includes("fast")) {
+      return "Project timelines vary based on complexity and scope. However, we're known for our efficiency - our advanced workflows and 3D modeling tools help us reduce typical project timelines by 30-40%. We can handle tight deadlines without compromising quality. For an accurate timeline estimate, please share your project details via our contact form.";
+    }
+    
+    // Software/Tools
+    if (message.includes("software") || message.includes("tool") || message.includes("autocad") || message.includes("cad")) {
+      return "We use industry-leading software including AutoCAD Plant 3D, AVEVA E3D, SmartPlant 3D, and other specialized engineering tools. Our team is proficient in both 2D drafting and 3D modeling, ensuring compatibility with client systems and seamless data exchange across different platforms.";
+    }
+    
+    // Industries
+    if (message.includes("industry") || message.includes("sector") || message.includes("type of project")) {
+      return "We serve various industries including Oil & Gas, Manufacturing, Power Generation, Water Treatment, Chemical Processing, and Infrastructure Development. Our expertise spans across industrial facilities, commercial buildings, and large-scale infrastructure projects.";
+    }
+    
+    // Greeting
+    if (message.includes("hello") || message.includes("hi") || message.includes("hey")) {
+      return "Hello! 👋 Welcome to A Consultant. I'm here to help answer your questions about our technical draughting and engineering services. Feel free to ask about our services, project timelines, expertise, or how we can help with your specific project needs!";
+    }
+    
+    // Thank you
+    if (message.includes("thank") || message.includes("thanks")) {
+      return "You're welcome! If you have any more questions about our services or would like to discuss your project, feel free to ask or use the contact form below. We're here to help! 😊";
+    }
+    
+    // Default response
+    return "That's a great question! While I can provide general information about our technical draughting and piping design services, I'd recommend reaching out through our contact form for specific project inquiries. Our team can provide detailed answers tailored to your needs. Is there anything specific about our services you'd like to know?";
   };
 
   const handleSend = () => {

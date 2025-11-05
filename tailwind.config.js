@@ -47,6 +47,11 @@ export default {
         strong: 'var(--shadow-strong)',
         glow: 'var(--shadow-glow)',
       },
+      fontFamily: {
+        sans: ['Montserrat', 'sans-serif'],
+        heading: ['Anton', 'sans-serif'],
+        body: ['Montserrat', 'sans-serif'],
+      },
     },
   },
   plugins: [],

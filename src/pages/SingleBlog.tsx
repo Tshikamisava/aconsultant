@@ -42,14 +42,21 @@ const SingleBlog = () => {
                 </div>
                 <div className="text-sm">{post.readTime}</div>
               </div>
-              <img src={post.image} alt={post.title} className="w-full rounded-lg shadow-medium mb-6" />
-              <article className="prose prose-lg text-foreground">
-                <p>{post.excerpt}</p>
-                <p>
-                  This is a demo article. Replace this with full article content when available. For now,
-                  the excerpt and metadata are used to demonstrate routing and single-post display.
-                </p>
-              </article>
+              <img src={post.image} alt={post.title} className="w-full rounded-lg shadow-medium mb-8" />
+              <article 
+                className="prose prose-lg max-w-none
+                  prose-headings:text-foreground 
+                  prose-h2:text-3xl prose-h2:font-bold prose-h2:mt-10 prose-h2:mb-5 prose-h2:text-primary
+                  prose-h3:text-2xl prose-h3:font-bold prose-h3:mt-8 prose-h3:mb-4 prose-h3:text-foreground
+                  prose-h4:text-xl prose-h4:font-bold prose-h4:mt-6 prose-h4:mb-3 prose-h4:text-foreground
+                  prose-p:text-base prose-p:leading-relaxed prose-p:mb-5 prose-p:text-muted-foreground
+                  prose-ul:my-5 prose-ul:space-y-2 
+                  prose-ol:my-5 prose-ol:space-y-2
+                  prose-li:text-muted-foreground prose-li:leading-relaxed
+                  prose-strong:text-primary prose-strong:font-bold
+                  prose-a:text-primary prose-a:font-semibold prose-a:no-underline hover:prose-a:underline"
+                dangerouslySetInnerHTML={{ __html: post.content || `<p>${post.excerpt}</p><p>Full article content coming soon...</p>` }}
+              />
               <div className="mt-8">
                 <Link to="/blog" className="text-primary hover:underline">← Back to articles</Link>
               </div>

@@ -1,9 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Navigation from "@/components/Navigation";
 import BlogCard from "@/components/BlogCard";
 import { blogPosts } from "@/data/blogPosts";
 
 const Blog = () => {
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  
+  const categories = ["All", "Piping Design", "Quality Control", "Project Management", "3D Modeling", "Infrastructure", "Innovation"];
+  
+  const filteredPosts = selectedCategory === "All" 
+    ? blogPosts 
+    : blogPosts.filter(post => post.category === selectedCategory);
+
   useEffect(() => {
     // Update page title and meta for SEO
     document.title = "Engineering Blog - Expert Insights | A Consultant";
@@ -44,14 +52,26 @@ const Blog = () => {
       <Navigation />
       
       <main className="pt-24">
-        {/* Hero Section */}
-        <section className="bg-gradient-light py-16">
-          <div className="container mx-auto px-6">
+        {/* Hero Section with Background Image */}
+        <section className="relative h-[60vh] min-h-[500px] overflow-hidden flex items-center">
+          {/* Background Image with Overlay */}
+          <div className="absolute inset-0 z-0">
+            <div 
+              className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat scale-105"
+              style={{
+                backgroundImage: "url('/src/assets/services-piping.jpg')",
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/70" />
+          </div>
+
+          {/* Hero Content */}
+          <div className="container mx-auto px-6 relative z-10 w-full">
             <div className="max-w-4xl mx-auto text-center animate-fade-in-up">
-              <h1 className="text-4xl md:text-6xl font-bold mb-6 text-primary">
+              <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white drop-shadow-lg">
                 Engineering Insights & Expertise
               </h1>
-              <p className="text-xl text-muted-foreground">
+              <p className="text-xl md:text-2xl text-white/90 drop-shadow-md">
                 Stay updated with the latest trends, best practices, and expert advice
                 in technical draughting, piping design, and engineering solutions
               </p>
@@ -62,11 +82,23 @@ const Blog = () => {
         {/* Blog Posts Grid */}
         <section className="py-16">
           <div className="container mx-auto px-6">
+            <div className="text-center mb-8">
+              <p className="text-muted-foreground">
+                {selectedCategory === "All" 
+                  ? `Showing all ${filteredPosts.length} articles` 
+                  : `Showing ${filteredPosts.length} article${filteredPosts.length !== 1 ? 's' : ''} in ${selectedCategory}`}
+              </p>
+            </div>
             <article className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {blogPosts.map((post, index) => (
+              {filteredPosts.map((post, index) => (
                 <BlogCard key={post.id} post={post} index={index} />
               ))}
             </article>
+            {filteredPosts.length === 0 && (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground text-lg">No articles found in this category.</p>
+              </div>
+            )}
           </div>
         </section>
 
@@ -77,10 +109,15 @@ const Blog = () => {
               Explore by Category
             </h2>
             <div className="flex flex-wrap justify-center gap-4">
-              {["Piping Design", "Quality Control", "Project Management", "3D Modeling", "Infrastructure", "Innovation"].map((category) => (
+              {categories.map((category) => (
                 <button
                   key={category}
-                  className="px-6 py-3 rounded-full bg-card hover:bg-primary hover:text-primary-foreground transition-all shadow-soft hover:shadow-medium"
+                  onClick={() => setSelectedCategory(category)}
+                  className={`px-6 py-3 rounded-full transition-all shadow-soft hover:shadow-medium ${
+                    selectedCategory === category
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-card hover:bg-primary hover:text-primary-foreground"
+                  }`}
                 >
                   {category}
                 </button>

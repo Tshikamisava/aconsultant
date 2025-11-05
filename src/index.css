@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Anton:wght@400&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -137,5 +139,63 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  /* Typography System */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+
+  /* Main headings - Anton */
+  .heading-large {
+    font-family: 'Anton', sans-serif;
+    font-size: 3rem; /* 48px - Anton 46 equivalent */
+    line-height: 1.1;
+  }
+
+  .heading-medium {
+    font-family: 'Anton', sans-serif;
+    font-size: 2.125rem; /* 34px - Anton 33 equivalent */
+    line-height: 1.2;
+  }
+
+  /* Subheadings - Montserrat Bold */
+  .subheading-large {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1rem; /* 16px - Montserrat bold 15.5 equivalent */
+    line-height: 1.4;
+  }
+
+  .subheading-medium {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 0.875rem; /* 14px - Montserrat bold 13.6 equivalent */
+    line-height: 1.4;
+  }
+
+  /* Paragraphs - Montserrat */
+  .text-body-large {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 1rem; /* 16px - Montserrat 15.5 equivalent */
+    line-height: 1.6;
+  }
+
+  .text-body-medium {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 0.875rem; /* 14px - Montserrat 13.6 equivalent */
+    line-height: 1.6;
+  }
+
+  .text-body-light {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 1rem;
+    line-height: 1.6;
   }
 }

@@ -73,13 +73,13 @@ const HeroSlideshow = () => {
 
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="text-center text-white px-6">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in-up">
+          <h1 className="font-heading text-5xl md:text-7xl mb-6 animate-fade-in-up tracking-wide">
             <span className="inline-block text-white drop-shadow-lg">{slides[currentSlide].title.split(' ')[0]}</span>{' '}
             <span className="bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent inline-block drop-shadow-lg">
               {slides[currentSlide].title.split(' ').slice(1).join(' ')}
             </span>
           </h1>
-            <p className="text-xl md:text-2xl mb-8 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] animate-fade-in-up [animation-delay:200ms] [animation-fill-mode:forwards]">
+            <p className="font-body text-xl md:text-2xl mb-8 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] animate-fade-in-up [animation-delay:200ms] [animation-fill-mode:forwards] font-light">
             {slides[currentSlide].subtitle}
             </p>
             <Button

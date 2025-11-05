@@ -5,7 +5,37 @@ import { Home, User, Layers, Briefcase, BookOpen, Menu, X } from "lucide-react";
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [overHero, setOverHero] = useState(true);
+  const [overBlogs, setOverBlogs] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isOnBlogPage, setIsOnBlogPage] = useState(false);
+
+  useEffect(() => {
+    // Check if we're on the blog page
+    setIsOnBlogPage(window.location.pathname === '/blog');
+    
+    // Handle hash navigation on page load/change
+    const handleHashNavigation = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (hash) {
+        setTimeout(() => {
+          const element = document.getElementById(hash);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 100); // Small delay to ensure page is loaded
+      }
+    };
+
+    // Check for hash on initial load
+    handleHashNavigation();
+
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleHashNavigation);
+
+    return () => {
+      window.removeEventListener('hashchange', handleHashNavigation);
+    };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,15 +63,45 @@ const Navigation = () => {
     return () => io.disconnect();
   }, []);
 
+  // Observe whether the blog section is in view
+  useEffect(() => {
+    const blogs = document.getElementById("blogs");
+    if (!blogs) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        setOverBlogs(entry.isIntersecting);
+      },
+      { root: null, threshold: 0.15 }
+    );
+
+    io.observe(blogs);
+    return () => io.disconnect();
+  }, []);
+
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
+    } else {
+      // If element doesn't exist (e.g., on blog page), go to home page first
+      if (window.location.pathname !== '/') {
+        window.location.href = `/#${id}`;
+      } else {
+        // If we're on home page but element doesn't exist yet, wait a bit
+        setTimeout(() => {
+          const delayedElement = document.getElementById(id);
+          if (delayedElement) {
+            delayedElement.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 500);
+      }
     }
   };
 
-  // link color: white when over the hero (and not scrolled), otherwise dark
-  const linkColorClass = !isScrolled && overHero ? "text-white" : "text-foreground";
+  // link color: always black on blog page, white when over the hero (and not scrolled), black when over blogs, otherwise dark
+  const linkColorClass = isOnBlogPage ? "text-foreground" : (overBlogs ? "text-foreground" : (!isScrolled && overHero ? "text-white" : "text-foreground"));
 
   return (
     <nav
@@ -53,8 +113,9 @@ const Navigation = () => {
     >
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <div className="text-2xl font-bold text-primary">
-            A Consultant
+          <div className="flex items-center gap-0">
+            <img src="/src/assets/logo.png" alt="A Consultant" className="h-10 w-auto" />
+            <span className="text-2xl font-bold text-primary">Consultant</span>
           </div>
 
           {/* Mobile menu button */}
@@ -86,8 +147,8 @@ const Navigation = () => {
             </a>
             <button
               onClick={() => {
-                scrollToSection("about");
                 setIsMobileMenuOpen(false);
+                scrollToSection("about");
               }}
               className="text-foreground hover:text-primary transition-colors text-lg font-medium flex items-center"
             >
@@ -96,8 +157,8 @@ const Navigation = () => {
             </button>
             <button
               onClick={() => {
-                scrollToSection("services");
                 setIsMobileMenuOpen(false);
+                scrollToSection("services");
               }}
               className="text-foreground hover:text-primary transition-colors text-lg font-medium flex items-center"
             >
@@ -106,8 +167,8 @@ const Navigation = () => {
             </button>
             <button
               onClick={() => {
-                scrollToSection("how-we-work");
                 setIsMobileMenuOpen(false);
+                scrollToSection("how-we-work");
               }}
               className="text-foreground hover:text-primary transition-colors text-lg font-medium flex items-center"
             >
