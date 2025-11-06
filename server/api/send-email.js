@@ -20,12 +20,28 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Parse request body if needed
+    let body = req.body;
+    
+    // If body is a string, parse it as JSON
+    if (typeof body === 'string') {
+      try {
+        body = JSON.parse(body);
+      } catch (parseError) {
+        console.error('JSON parse error:', parseError);
+        return res.status(400).json({
+          error: 'Invalid JSON',
+          message: 'Request body must be valid JSON'
+        });
+      }
+    }
+
     // Debug logging
-    console.log('Request body:', req.body);
+    console.log('Request body:', body);
     console.log('Request method:', req.method);
     console.log('Content-Type:', req.headers['content-type']);
 
-    const { from_name, from_email, message } = req.body;
+    const { from_name, from_email, message } = body;
 
     // Validation
     if (!from_name || !from_email || !message) {
@@ -44,8 +60,15 @@ export default async function handler(req, res) {
       });
     }
 
+    // Debug environment variables
+    console.log('Environment check:', {
+      EMAIL_USER: process.env.EMAIL_USER ? 'SET' : 'NOT SET',
+      EMAIL_APP_PASSWORD: process.env.EMAIL_APP_PASSWORD ? 'SET' : 'NOT SET',
+      EMAIL_TO: process.env.EMAIL_TO || 'lhlongwane81@gmail.com'
+    });
+
     // Create Nodemailer transporter
-    const transporter = nodemailer.createTransport({
+    const transporter = nodemailer.createTransporter({
       host: 'smtp.gmail.com',
       port: 587,
       secure: false,
