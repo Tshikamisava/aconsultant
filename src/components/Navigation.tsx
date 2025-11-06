@@ -112,36 +112,36 @@ const Navigation = () => {
           : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
+      <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4 max-w-7xl">
+        <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-0">
-            <img src={logo} alt="A Consultant" className="h-10 w-auto" />
-            <span className="text-2xl font-bold text-primary">Consultant</span>
+            <img src={logo} alt="A Consultant" className="h-7 sm:h-8 md:h-9 lg:h-10 w-auto" />
+            <span className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-primary whitespace-nowrap">Consultant</span>
           </div>
 
           {/* Mobile menu button */}
           <button 
-            className="md:hidden z-50"
+            className="lg:hidden z-50 p-2 rounded-md hover:bg-black/10 transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? (
-              <X size={24} className={linkColorClass} />
+              <X size={20} className={linkColorClass} />
             ) : (
-              <Menu size={24} className={linkColorClass} />
+              <Menu size={20} className={linkColorClass} />
             )}
           </button>
           
           {/* Mobile menu */}
           <div className={`
-            fixed inset-0 bg-background/95 backdrop-blur-sm md:hidden
-            flex flex-col items-center justify-center space-y-8
-            transition-all duration-300 ease-in-out
+            fixed inset-0 bg-background/95 backdrop-blur-sm lg:hidden
+            flex flex-col items-center justify-center space-y-4 px-4 py-8
+            transition-all duration-300 ease-in-out overflow-y-auto
             ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}
           `}>
             <a
               href="/"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-foreground hover:text-primary transition-colors text-lg font-medium flex items-center"
+              className="text-foreground hover:text-primary transition-colors text-lg font-medium flex items-center justify-center py-4 px-8 rounded-lg hover:bg-primary/5 w-full max-w-sm"
             >
               <Home size={20} className="mr-2" />
               Home
@@ -151,7 +151,7 @@ const Navigation = () => {
                 setIsMobileMenuOpen(false);
                 scrollToSection("about");
               }}
-              className="text-foreground hover:text-primary transition-colors text-lg font-medium flex items-center"
+              className="text-foreground hover:text-primary transition-colors text-lg font-medium flex items-center justify-center py-4 px-8 rounded-lg hover:bg-primary/5 w-full max-w-sm"
             >
               <User size={20} className="mr-2" />
               About
@@ -161,7 +161,7 @@ const Navigation = () => {
                 setIsMobileMenuOpen(false);
                 scrollToSection("services");
               }}
-              className="text-foreground hover:text-primary transition-colors text-lg font-medium flex items-center"
+              className="text-foreground hover:text-primary transition-colors text-lg font-medium flex items-center justify-center py-4 px-8 rounded-lg hover:bg-primary/5 w-full max-w-sm"
             >
               <Layers size={20} className="mr-2" />
               Services
@@ -171,15 +171,15 @@ const Navigation = () => {
                 setIsMobileMenuOpen(false);
                 scrollToSection("how-we-work");
               }}
-              className="text-foreground hover:text-primary transition-colors text-lg font-medium flex items-center"
+              className="text-foreground hover:text-primary transition-colors text-lg font-medium flex items-center justify-center py-4 px-8 rounded-lg hover:bg-primary/5 w-full max-w-sm"
             >
               <Briefcase size={20} className="mr-2" />
-              Key Fector
+              Key Factor
             </button>
             <a
               href="/blog"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-foreground hover:text-primary transition-colors text-lg font-medium flex items-center"
+              className="text-foreground hover:text-primary transition-colors text-lg font-medium flex items-center justify-center py-4 px-8 rounded-lg hover:bg-primary/5 w-full max-w-sm"
             >
               <BookOpen size={20} className="mr-2" />
               Blog
@@ -189,68 +189,93 @@ const Navigation = () => {
                 scrollToSection("contact");
                 setIsMobileMenuOpen(false);
               }}
-              className="shadow-medium hover:shadow-glow transition-all duration-300"
+              className="shadow-medium hover:shadow-glow transition-all duration-300 w-full max-w-sm py-3 text-lg mt-4"
             >
               Get in Touch
             </Button>
           </div>
 
           {/* Desktop menu */}
-          <div className="hidden md:flex items-center space-x-8">
-            {/* when over the hero and not scrolled keep links light (white); otherwise dark */}
-            {/** compute link color class here so it stays consistent across links */}
-            
+          <div className="hidden lg:flex items-center space-x-6 xl:space-x-8">
             <a
               href="/"
-              className={`${linkColorClass} hover:text-primary transition-colors text-base font-medium flex items-center`}
+              className={`${linkColorClass} hover:text-primary transition-colors text-sm xl:text-base font-medium flex items-center`}
             >
-              <Home size={16} className={`mr-2 ${linkColorClass}`} />
+              <Home size={14} className={`mr-1.5 xl:mr-2 ${linkColorClass}`} />
               Home
             </a>
             <button
               onClick={() => scrollToSection("about")}
-              className={`${linkColorClass} hover:text-primary transition-colors text-base font-medium flex items-center`}
+              className={`${linkColorClass} hover:text-primary transition-colors text-sm xl:text-base font-medium flex items-center`}
             >
-              <User size={16} className={`mr-2 ${linkColorClass}`} />
+              <User size={14} className={`mr-1.5 xl:mr-2 ${linkColorClass}`} />
               About
             </button>
             <button
               onClick={() => scrollToSection("services")}
-              className={`${linkColorClass} hover:text-primary transition-colors text-base font-medium flex items-center`}
+              className={`${linkColorClass} hover:text-primary transition-colors text-sm xl:text-base font-medium flex items-center`}
             >
-              <Layers size={16} className={`mr-2 ${linkColorClass}`} />
+              <Layers size={14} className={`mr-1.5 xl:mr-2 ${linkColorClass}`} />
               Services
             </button>
             <button
               onClick={() => scrollToSection("how-we-work")}
-              className={`${linkColorClass} hover:text-primary transition-colors text-base font-medium flex items-center`}
+              className={`${linkColorClass} hover:text-primary transition-colors text-sm xl:text-base font-medium flex items-center whitespace-nowrap`}
             >
-              <Briefcase size={16} className={`mr-2 ${linkColorClass}`} />
-              Key Fector
+              <Briefcase size={14} className={`mr-1.5 xl:mr-2 ${linkColorClass}`} />
+              Key Factor
             </button>
             <a
               href="/blog"
-              className={`${linkColorClass} hover:text-primary transition-colors text-base font-medium flex items-center`}
+              className={`${linkColorClass} hover:text-primary transition-colors text-sm xl:text-base font-medium flex items-center`}
             >
-              <BookOpen size={16} className={`mr-2 ${linkColorClass}`} />
+              <BookOpen size={14} className={`mr-1.5 xl:mr-2 ${linkColorClass}`} />
               Blog
             </a>
-            {/* 
-            <button
-              onClick={() => scrollToSection("contact")}
-              className={`${linkColorClass} hover:text-primary transition-colors text-base font-medium flex items-center`}
+          </div>
+
+          {/* Medium screen menu - simplified */}
+          <div className="hidden md:flex lg:hidden items-center space-x-3">
+            <a
+              href="/"
+              className={`${linkColorClass} hover:text-primary transition-colors text-xs font-medium flex items-center`}
             >
-              <Mail size={16} className={`mr-2 ${linkColorClass}`} />
-              Contact
+              <Home size={12} className={`mr-1 ${linkColorClass}`} />
+              Home
+            </a>
+            <button
+              onClick={() => scrollToSection("about")}
+              className={`${linkColorClass} hover:text-primary transition-colors text-xs font-medium flex items-center`}
+            >
+              <User size={12} className={`mr-1 ${linkColorClass}`} />
+              About
             </button>
-            */}
+            <button
+              onClick={() => scrollToSection("services")}
+              className={`${linkColorClass} hover:text-primary transition-colors text-xs font-medium`}
+            >
+              Services
+            </button>
+            <button
+              onClick={() => scrollToSection("how-we-work")}
+              className={`${linkColorClass} hover:text-primary transition-colors text-xs font-medium whitespace-nowrap`}
+            >
+              Key Factor
+            </button>
+            <a
+              href="/blog"
+              className={`${linkColorClass} hover:text-primary transition-colors text-xs font-medium`}
+            >
+              Blog
+            </a>
           </div>
 
           <Button
             onClick={() => scrollToSection("contact")}
-            className="hidden md:block shadow-medium hover:shadow-glow transition-all duration-300"
+            className="hidden md:block shadow-medium hover:shadow-glow transition-all duration-300 px-3 py-2 text-xs md:text-sm lg:px-4 lg:py-2.5 lg:text-base xl:px-6"
           >
-            Get in Touch
+            <span className="hidden lg:inline">Get in Touch</span>
+            <span className="lg:hidden">Contact</span>
           </Button>
         </div>
       </div>
