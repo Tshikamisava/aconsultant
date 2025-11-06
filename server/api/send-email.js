@@ -20,10 +20,16 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Debug logging
+    console.log('Request body:', req.body);
+    console.log('Request method:', req.method);
+    console.log('Content-Type:', req.headers['content-type']);
+
     const { from_name, from_email, message } = req.body;
 
     // Validation
     if (!from_name || !from_email || !message) {
+      console.log('Missing fields - from_name:', from_name, 'from_email:', from_email, 'message:', message);
       return res.status(400).json({
         error: 'Missing required fields',
         details: 'Please provide from_name, from_email, and message'
