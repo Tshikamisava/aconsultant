@@ -2,73 +2,80 @@
 // contact.php - Handle contact form submissions
 // For use with Hostking or any PHP hosting provider
 
-// Load configuration
-require_once 'config.php';
+// Force JSON output and error handling
+ini_set('display_errors', 0);
+error_reporting(0);
 
-// Set CORS headers based on configuration
-$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-if (in_array($origin, $ALLOWED_ORIGINS)) {
-    header("Access-Control-Allow-Origin: $origin");
-} else {
-    header('Access-Control-Allow-Origin: *'); // Fallback for development
-}
-
-header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, X-Requested-With');
-header('Content-Type: application/json; charset=utf-8');
-
-// Handle preflight OPTIONS request
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
-
-// Only allow POST requests
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    echo json_encode(['error' => 'Method not allowed']);
-    exit();
-}
-
-// Simple rate limiting based on IP
-function checkRateLimit($ip) {
-    $log_file = 'email_log.txt';
-    $current_time = time();
-    $one_hour_ago = $current_time - 3600;
-    
-    // Read existing log
-    $entries = [];
-    if (file_exists($log_file)) {
-        $entries = file($log_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    }
-    
-    // Filter entries from the last hour for this IP
-    $recent_entries = array_filter($entries, function($entry) use ($ip, $one_hour_ago) {
-        $parts = explode('|', $entry);
-        return count($parts) >= 2 && 
-               $parts[1] === $ip && 
-               intval($parts[0]) > $one_hour_ago;
-    });
-    
-    // Check if limit exceeded
-    if (count($recent_entries) >= MAX_EMAILS_PER_IP_PER_HOUR) {
-        return false;
-    }
-    
-    // Add current entry
-    $new_entry = $current_time . '|' . $ip . PHP_EOL;
-    file_put_contents($log_file, $new_entry, FILE_APPEND | LOCK_EX);
-    
-    return true;
-}
-
-$client_ip = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
+// Start output buffering to catch any unexpected output
+ob_start();
 
 try {
+    // Load configuration
+    require_once 'config.php';
+
+    // Set CORS headers based on configuration
+    $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+    if (in_array($origin, $ALLOWED_ORIGINS)) {
+        header("Access-Control-Allow-Origin: $origin");
+    } else {
+        header('Access-Control-Allow-Origin: *'); // Fallback for development
+    }
+
+    header('Access-Control-Allow-Methods: POST, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type, X-Requested-With');
+    header('Content-Type: application/json; charset=utf-8');
+
+    // Handle preflight OPTIONS request
+    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+        http_response_code(200);
+        ob_end_clean();
+        exit();
+    }
+
+    // Only allow POST requests
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        throw new Exception('Method not allowed');
+    }
+
+    // Simple rate limiting based on IP
+    function checkRateLimit($ip) {
+        $log_file = 'email_log.txt';
+        $current_time = time();
+        $one_hour_ago = $current_time - 3600;
+        
+        // Read existing log
+        $entries = [];
+        if (file_exists($log_file)) {
+            $entries = file($log_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        }
+        
+        // Filter entries from the last hour for this IP
+        $recent_entries = array_filter($entries, function($entry) use ($ip, $one_hour_ago) {
+            $parts = explode('|', $entry);
+            return count($parts) >= 2 && 
+                   $parts[1] === $ip && 
+                   intval($parts[0]) > $one_hour_ago;
+        });
+        
+        // Check if limit exceeded
+        if (count($recent_entries) >= MAX_EMAILS_PER_IP_PER_HOUR) {
+            return false;
+        }
+        
+        // Add current entry
+        $new_entry = $current_time . '|' . $ip . PHP_EOL;
+        file_put_contents($log_file, $new_entry, FILE_APPEND | LOCK_EX);
+        
+        return true;
+    }
+
+    $client_ip = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
+
     // Check rate limiting
     if (!checkRateLimit($client_ip)) {
         throw new Exception('Too many emails sent from this IP. Please try again later.');
     }
+
     // Get and validate input data
     $input = file_get_contents('php://input');
     $data = json_decode($input, true);
@@ -189,6 +196,7 @@ try {
     }
     
     // Success response
+    ob_clean(); // Clear any unexpected output
     http_response_code(200);
     echo json_encode([
         'success' => true,
@@ -198,10 +206,22 @@ try {
     
 } catch (Exception $e) {
     // Error response
+    ob_clean(); // Clear any previous output
     http_response_code(400);
     echo json_encode([
         'success' => false,
         'error' => $e->getMessage()
     ]);
+} catch (Error $e) {
+    // Fatal error response
+    ob_clean(); // Clear any previous output
+    http_response_code(500);
+    echo json_encode([
+        'success' => false,
+        'error' => 'Server error occurred'
+    ]);
 }
+
+// Clean up output buffer
+ob_end_flush();
 ?>

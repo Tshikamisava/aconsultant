@@ -48,7 +48,27 @@ class PHPEmailService {
         body: JSON.stringify(data),
       });
 
-      const result: EmailResponse = await response.json();
+      console.log('📧 Response status:', response.status);
+      console.log('📧 Response headers:', Object.fromEntries(response.headers.entries()));
+
+      // Get response text first to check if it's HTML or JSON
+      const responseText = await response.text();
+      console.log('📧 Raw response:', responseText.substring(0, 200) + '...');
+
+      // Check if response is HTML (indicates PHP error)
+      if (responseText.trim().startsWith('<!DOCTYPE') || responseText.trim().startsWith('<html')) {
+        console.error('❌ PHP returned HTML instead of JSON - likely a PHP error');
+        throw new Error(`Server returned HTML instead of JSON. This usually means there's a PHP error. Check ${url} directly in your browser.`);
+      }
+
+      // Try to parse as JSON
+      let result: EmailResponse;
+      try {
+        result = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error('❌ Failed to parse JSON response:', responseText);
+        throw new Error(`Invalid JSON response from server: ${responseText.substring(0, 100)}...`);
+      }
 
       if (!response.ok) {
         throw new Error(result.error || `HTTP error! status: ${response.status}`);
