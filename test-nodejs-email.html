@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js Email Server Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .test-result { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .warning { background-color: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        button { background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin: 5px; }
+        button:hover { background-color: #0056b3; }
+        button:disabled { background-color: #6c757d; cursor: not-allowed; }
+        .form-group { margin: 10px 0; }
+        input, textarea { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        textarea { height: 100px; resize: vertical; }
+    </style>
+</head>
+<body>
+    <h1>🚀 Node.js Email Server Test</h1>
+    <p>Testing the Node.js + Nodemailer integration for A Consultant website.</p>
+    
+    <div id="results"></div>
+    
+    <h3>Server Health Check</h3>
+    <button onclick="checkServerHealth()">Check Server Status</button>
+    
+    <h3>Quick Email Test</h3>
+    <button onclick="testQuickEmail()">Send Test Email</button>
+    
+    <h3>Custom Email Test</h3>
+    <div class="form-group">
+        <label>Your Name:</label>
+        <input type="text" id="testName" value="Test User" />
+    </div>
+    <div class="form-group">
+        <label>Your Email:</label>
+        <input type="email" id="testEmail" value="test@example.com" />
+    </div>
+    <div class="form-group">
+        <label>Message:</label>
+        <textarea id="testMessage">This is a custom test message from the Node.js email server test page.</textarea>
+    </div>
+    <button onclick="testCustomEmail()">Send Custom Email</button>
+    
+    <script>
+        function log(message, type = 'info') {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `test-result ${type}`;
+            div.innerHTML = message;
+            results.appendChild(div);
+            console.log(message);
+        }
+        
+        async function checkServerHealth() {
+            log('🔍 Checking Node.js email server health...', 'info');
+            
+            try {
+                const response = await fetch('http://localhost:3001/health');
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log('✅ Email server is running and healthy!', 'success');
+                    log(`📊 Server response: ${JSON.stringify(data)}`, 'info');
+                } else {
+                    log('⚠️ Server responded but with error status: ' + response.status, 'warning');
+                }
+            } catch (error) {
+                log('❌ Cannot connect to email server: ' + error.message, 'error');
+                log('💡 Make sure the Node.js server is running on http://localhost:3001', 'warning');
+            }
+        }
+        
+        async function testQuickEmail() {
+            const testData = {
+                from_name: 'Quick Test User',
+                from_email: 'quicktest@example.com',
+                message: 'This is a quick test email from the Node.js email server. If you receive this, the server is working correctly!'
+            };
+            
+            await sendTestEmail(testData);
+        }
+        
+        async function testCustomEmail() {
+            const testData = {
+                from_name: document.getElementById('testName').value,
+                from_email: document.getElementById('testEmail').value,
+                message: document.getElementById('testMessage').value
+            };
+            
+            if (!testData.from_name || !testData.from_email || !testData.message) {
+                log('❌ Please fill in all fields', 'error');
+                return;
+            }
+            
+            await sendTestEmail(testData);
+        }
+        
+        async function sendTestEmail(testData) {
+            log('📧 Preparing test email...', 'info');
+            log(`📝 From: ${testData.from_name} (${testData.from_email})`, 'info');
+            log(`📝 Message: ${testData.message.substring(0, 50)}...`, 'info');
+            
+            try {
+                log('📤 Sending email via Node.js server...', 'info');
+                
+                const response = await fetch('http://localhost:3001/send-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    log('✅ Email sent successfully!', 'success');
+                    log(`📨 Response: ${JSON.stringify(result)}`, 'success');
+                    log('✉️ Check lhlongwane81@gmail.com for the test email', 'success');
+                } else {
+                    log('❌ Email sending failed: ' + (result.error || 'Unknown error'), 'error');
+                    log(`📊 Server response: ${JSON.stringify(result)}`, 'error');
+                }
+                
+            } catch (error) {
+                log('❌ Network error: ' + error.message, 'error');
+                log('💡 Make sure the Node.js server is running on http://localhost:3001', 'warning');
+            }
+        }
+        
+        // Auto-check server health on page load
+        window.onload = () => {
+            log('🔧 Node.js Email Server Test Page Loaded', 'info');
+            checkServerHealth();
+        };
+    </script>
+</body>
+</html>

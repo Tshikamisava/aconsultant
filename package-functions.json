@@ -1,0 +1,11 @@
+{
+  "name": "aconsultant-netlify-functions",
+  "version": "1.0.0",
+  "description": "Netlify serverless functions for A Consultant email service",
+  "main": "index.js",
+  "dependencies": {
+    "nodemailer": "^6.9.7"
+  },
+  "author": "A Consultant",
+  "license": "ISC"
+}

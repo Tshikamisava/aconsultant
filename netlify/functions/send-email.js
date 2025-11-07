@@ -1,75 +1,64 @@
-const express = require('express');
-const nodemailer = require('nodemailer');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-require('dotenv').config();
+import nodemailer from 'nodemailer';
 
-const app = express();
-const PORT = process.env.PORT || 3001;
-
-// Middleware
-app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// Gmail SMTP configuration (you can change this to any email service)
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER || 'your-email@gmail.com', // Your Gmail address
-    pass: process.env.EMAIL_PASS || 'your-app-password'     // Your Gmail app password
+export const handler = async (event, context) => {
+  // Handle CORS preflight requests first
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS'
+      },
+      body: ''
+    };
   }
-});
 
-// Alternative configuration for other email services
-// const transporter = nodemailer.createTransport({
-//   host: 'smtp.example.com',
-//   port: 587,
-//   secure: false, // true for 465, false for other ports
-//   auth: {
-//     user: process.env.EMAIL_USER,
-//     pass: process.env.EMAIL_PASS
-//   }
-// });
+  // Only allow POST requests for actual email sending
+  if (event.httpMethod !== 'POST') {
+    return {
+      statusCode: 405,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS'
+      },
+      body: JSON.stringify({ error: 'Method Not Allowed' })
+    };
+  }
 
-// Test route
-app.get('/', (req, res) => {
-  res.json({ 
-    message: 'A Consultant Email Server is running!', 
-    status: 'healthy',
-    timestamp: new Date().toISOString()
-  });
-});
-
-// Health check route
-app.get('/health', (req, res) => {
-  res.json({ 
-    status: 'OK', 
-    service: 'email-server',
-    timestamp: new Date().toISOString()
-  });
-});
-
-// Email sending route
-app.post('/send-email', async (req, res) => {
   try {
-    const { from_name, from_email, message } = req.body;
+    const { from_name, from_email, message } = JSON.parse(event.body);
 
     // Validate required fields
     if (!from_name || !from_email || !message) {
-      return res.status(400).json({
-        success: false,
-        error: 'Missing required fields: from_name, from_email, and message are required'
-      });
+      return {
+        statusCode: 400,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          success: false,
+          error: 'Missing required fields: from_name, from_email, and message are required'
+        })
+      };
     }
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(from_email)) {
-      return res.status(400).json({
-        success: false,
-        error: 'Invalid email format'
-      });
+      return {
+        statusCode: 400,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          success: false,
+          error: 'Invalid email format'
+        })
+      };
     }
 
     console.log('📧 Processing email request:', {
@@ -78,10 +67,19 @@ app.post('/send-email', async (req, res) => {
       messageLength: message.length
     });
 
+    // Gmail SMTP configuration using environment variables
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER, // Set in Netlify environment variables
+        pass: process.env.EMAIL_PASS  // Set in Netlify environment variables
+      }
+    });
+
     // Email options
     const mailOptions = {
-      from: `"A Consultant Website" <${process.env.EMAIL_USER || 'noreply@aconsultant.com'}>`,
-      to: 'lhlongwane81@gmail.com', // Your email where you want to receive messages
+      from: `"A Consultant Website" <${process.env.EMAIL_USER}>`,
+      to: 'lhlongwane81@gmail.com',
       subject: `New Contact Form Message from ${from_name}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9;">
@@ -91,6 +89,7 @@ app.post('/send-email', async (req, res) => {
             <div style="text-align: center; margin-bottom: 30px;">
               <h1 style="color: #333; margin: 0; font-size: 24px;">New Contact Form Submission</h1>
               <div style="width: 50px; height: 3px; background-color: #007bff; margin: 10px auto;"></div>
+              <p style="color: #666; margin: 5px 0;">From www.aconsultantant.co.za</p>
             </div>
             
             <!-- Contact Information -->
@@ -127,7 +126,7 @@ app.post('/send-email', async (req, res) => {
                 This message was sent from the A Consultant website contact form.
               </p>
               <p style="color: #666; font-size: 12px; margin: 5px 0 0 0;">
-                Reply directly to this email to respond to ${from_name}.
+                Website: <a href="https://www.aconsultantant.co.za" style="color: #007bff;">www.aconsultantant.co.za</a>
               </p>
             </div>
             
@@ -135,7 +134,7 @@ app.post('/send-email', async (req, res) => {
         </div>
       `,
       text: `
-New Contact Form Submission
+New Contact Form Submission from www.aconsultantant.co.za
 
 Name: ${from_name}
 Email: ${from_email}
@@ -146,9 +145,10 @@ ${message}
 
 ---
 This message was sent from the A Consultant website contact form.
+Website: https://www.aconsultantant.co.za
 Reply to: ${from_email}
       `,
-      replyTo: from_email // Allow direct reply to the sender
+      replyTo: from_email
     };
 
     // Send email
@@ -160,12 +160,19 @@ Reply to: ${from_email}
       response: info.response
     });
 
-    res.json({
-      success: true,
-      message: 'Email sent successfully',
-      messageId: info.messageId,
-      timestamp: new Date().toISOString()
-    });
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        success: true,
+        message: 'Email sent successfully',
+        messageId: info.messageId,
+        timestamp: new Date().toISOString()
+      })
+    };
 
   } catch (error) {
     console.error('❌ Email sending failed:', error);
@@ -179,19 +186,17 @@ Reply to: ${from_email}
       errorMessage = error.message;
     }
 
-    res.status(500).json({
-      success: false,
-      error: errorMessage,
-      timestamp: new Date().toISOString()
-    });
+    return {
+      statusCode: 500,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        success: false,
+        error: errorMessage,
+        timestamp: new Date().toISOString()
+      })
+    };
   }
-});
-
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Email server running on http://localhost:${PORT}`);
-  console.log(`📧 Ready to send emails to: lhlongwane81@gmail.com`);
-  console.log(`🔧 Environment: ${process.env.NODE_ENV || 'development'}`);
-});
-
-module.exports = app;
+};
