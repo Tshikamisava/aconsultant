@@ -31,13 +31,20 @@ const Contact = () => {
     setSending(true);
     
     try {
-      // Simulate sending delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      console.log('📧 Using Netlify email service...');
+
+      // Import Netlify email service dynamically
+      const { default: emailService } = await import('../../services/netlifyEmailService');
       
-      console.log("Form submitted:", data);
+      console.log('📧 Email service status:', emailService.getStatus());
       
-      toast.success("Message received!", {
-        description: "Thank you for your message. We'll get back to you soon!"
+      // Send email using Netlify Functions
+      const result = await emailService.sendContactEmail(data);
+      
+      console.log("Email sent via Netlify:", result);
+      
+      toast.success("Message sent successfully!", {
+        description: "Thank you for contacting us. We'll get back to you soon!"
       });
       form.reset();
       
@@ -57,8 +64,8 @@ const Contact = () => {
     {
       icon: Mail,
       title: "Email Us",
-      content: "info@aconsultant.com",
-      link: "mailto:info@aconsultant.com",
+      content: "lhlongwane81@gmail.com",
+      link: "mailto:lhlongwane81@gmail.com",
     },
     {
       icon: Phone,
