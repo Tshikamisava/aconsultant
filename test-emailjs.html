@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmailJS Test</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+    <h1>EmailJS Configuration Test</h1>
+    <div id="results"></div>
+    
+    <script>
+        const serviceId = 'service_f6dfp3s';
+        const templateId = 'template_7g2jvm7';
+        const publicKey = 'jX2s-t9SIunfClJiT';
+        
+        function log(message) {
+            const results = document.getElementById('results');
+            results.innerHTML += '<p>' + message + '</p>';
+            console.log(message);
+        }
+        
+        async function testEmailJS() {
+            log('🔍 Testing EmailJS Configuration...');
+            
+            // Check if EmailJS loaded
+            if (typeof emailjs === 'undefined') {
+                log('❌ EmailJS not loaded');
+                return;
+            }
+            
+            log('✅ EmailJS library loaded');
+            log('🔧 Service ID: ' + serviceId);
+            log('📧 Template ID: ' + templateId);
+            log('🔑 Public Key: ' + publicKey.substring(0, 5) + '...');
+            
+            try {
+                // Initialize EmailJS
+                emailjs.init(publicKey);
+                log('✅ EmailJS initialized');
+                
+                // Test email parameters
+                const testParams = {
+                    name: 'Test User',
+                    email: 'test@example.com',
+                    message: 'This is a test message from the configuration test.'
+                };
+                
+                log('📤 Sending test email...');
+                
+                const response = await emailjs.send(serviceId, templateId, testParams);
+                
+                log('✅ Email sent successfully!');
+                log('📨 Response: ' + JSON.stringify(response));
+                
+            } catch (error) {
+                log('❌ Error occurred: ' + error.message);
+                log('📊 Error details: ' + JSON.stringify(error));
+                
+                if (error.status === 412) {
+                    log('🚨 Status 412: Check your service ID, template ID, and public key');
+                } else if (error.status === 400) {
+                    log('🚨 Status 400: Check your template parameters');
+                }
+            }
+        }
+        
+        // Run test when page loads
+        window.onload = testEmailJS;
+    </script>
+</body>
+</html>
