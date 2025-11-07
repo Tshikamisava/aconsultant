@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import hero1 from "@/assets/hero-1.jpg";
+import hero from "@/assets/hero.jpg";
 import hero2 from "@/assets/hero-2.jpg";
 import hero3 from "@/assets/hero-3.jpg";
 
 const slides = [
   {
-    image: hero1,
+    image: hero,
     title: "Engineering Excellence",
     subtitle: "Precision in every design",
   },
@@ -73,19 +73,19 @@ const HeroSlideshow = () => {
 
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="text-center text-white px-6">
-          <h1 className="font-heading text-5xl md:text-7xl mb-6 animate-fade-in-up tracking-wide">
+          <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl mb-6 animate-fade-in-up tracking-wide font-normal">
             <span className="inline-block text-white drop-shadow-lg">{slides[currentSlide].title.split(' ')[0]}</span>{' '}
             <span className="bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent inline-block drop-shadow-lg">
               {slides[currentSlide].title.split(' ').slice(1).join(' ')}
             </span>
           </h1>
-            <p className="font-body text-xl md:text-2xl mb-8 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] animate-fade-in-up [animation-delay:200ms] [animation-fill-mode:forwards] font-light">
+            <p className="font-body text-base md:text-lg lg:text-xl mb-8 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] animate-fade-in-up [animation-delay:200ms] [animation-fill-mode:forwards] font-medium leading-relaxed">
             {slides[currentSlide].subtitle}
             </p>
             <Button
             size="lg"
             onClick={scrollToAbout}
-            className="bg-primary text-white hover:bg-primary/90 hover:scale-105 shadow-glow text-lg px-8 py-6 transition-all duration-300 animate-fade-in-up [animation-delay:400ms] [animation-fill-mode:forwards]"
+            className="bg-primary text-white hover:bg-primary/90 hover:scale-105 shadow-glow text-lg px-8 py-6 transition-all duration-300 animate-fade-in-up [animation-delay:400ms] [animation-fill-mode:forwards] font-body font-medium"
             >
             Discover More
             </Button>

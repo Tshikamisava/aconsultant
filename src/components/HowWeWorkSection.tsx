@@ -167,14 +167,14 @@ const HowWeWorkSection = () => {
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-12 animate-fade-in-up">
           <div className="inline-block mb-3">
-            <span className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold tracking-wide">
+            <span className="font-body px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold tracking-wide">
               OUR PROCESS
             </span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary via-primary/90 to-accent bg-clip-text text-transparent">
+          <h2 className="font-heading text-4xl md:text-5xl font-normal mb-4 bg-gradient-to-r from-primary via-primary/90 to-accent bg-clip-text text-transparent">
             How We Do What We Do
           </h2>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="font-body text-base md:text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed font-medium">
             Our proven process ensures quality and efficiency in every project
           </p>
         </div>
@@ -201,13 +201,13 @@ const HowWeWorkSection = () => {
                     
                     <div className="animate-fade-in-right order-1 md:order-2">
                       <div className="flex items-center gap-4 mb-4">
-                        <div className="text-6xl font-bold bg-gradient-to-br from-primary to-accent bg-clip-text text-transparent">
+                        <div className="font-heading text-6xl font-normal bg-gradient-to-br from-primary to-accent bg-clip-text text-transparent">
                           {factor.number}
                         </div>
                         <div className="h-16 w-1 bg-gradient-to-b from-primary to-accent rounded-full"></div>
                       </div>
                       
-                      <h3 className="text-3xl md:text-4xl font-bold mb-6 text-primary leading-tight">
+                      <h3 className="font-heading text-3xl md:text-4xl font-normal mb-6 text-primary leading-tight">
                         {factor.title}
                       </h3>
                       
@@ -226,10 +226,10 @@ const HowWeWorkSection = () => {
                               <div className="flex items-start gap-3">
                                 <div className="flex-shrink-0 w-2 h-2 rounded-full bg-gradient-to-r from-primary to-accent mt-2"></div>
                                 <div>
-                                  <h4 className="text-lg font-semibold mb-2 text-foreground group-hover:text-primary transition-colors">
+                                  <h4 className="font-heading text-lg font-normal mb-2 text-foreground group-hover:text-primary transition-colors">
                                     {item.title}
                                   </h4>
-                                  <p className="text-muted-foreground leading-relaxed text-sm">
+                                  <p className="font-body text-muted-foreground leading-relaxed text-sm font-medium">
                                     {item.description}
                                   </p>
                                 </div>
