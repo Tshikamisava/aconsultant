@@ -299,10 +299,10 @@ Edit `src/components/BlogSection.tsx` to change:
 PORT=3001
 JWT_SECRET=your-production-secret-key
 ALLOWED_ORIGINS=https://yourdomain.com
-SMTP_FROM=your-email@example.com
-EMAIL_APP_PASSWORD=your-app-password
-EMAIL_TO=recipient@email.com
 ```
+
+**Note:** This project now uses PHP backend for email functionality. 
+Email configuration is handled in `api/config.php` - no environment variables needed.
 
 ---
 
