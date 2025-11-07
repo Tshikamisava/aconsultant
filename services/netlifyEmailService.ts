@@ -57,7 +57,7 @@ class NetlifyEmailService {
       console.log('📧 Sending email via Netlify Functions:', {
         from: from_name,
         email: from_email,
-        to: 'lhlongwane81@gmail.com',
+        to: 'info@aconsultant.co.za',
         endpoint: `${this.baseUrl}${this.emailEndpoint}`
       });
 

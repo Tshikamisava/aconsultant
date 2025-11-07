@@ -52,7 +52,7 @@ const Contact = () => {
       console.error("Form submission error:", error);
       
       toast.error("Something went wrong", {
-        description: "Please contact us directly at lhlongwane81@gmail.com or call us.",
+        description: "Please contact us directly via phone or try again later.",
         duration: 7000
       });
     } finally {
@@ -64,8 +64,8 @@ const Contact = () => {
     {
       icon: Mail,
       title: "Email Us",
-      content: "lhlongwane81@gmail.com",
-      link: "mailto:lhlongwane81@gmail.com",
+      content: "info@aconsultant.co.za",
+      link: "mailto:info@aconsultant.co.za",
     },
     {
       icon: Phone,

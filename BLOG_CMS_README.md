@@ -299,7 +299,7 @@ Edit `src/components/BlogSection.tsx` to change:
 PORT=3001
 JWT_SECRET=your-production-secret-key
 ALLOWED_ORIGINS=https://yourdomain.com
-EMAIL_USER=your-email@gmail.com
+EMAIL_USER=your-email@example.com
 EMAIL_APP_PASSWORD=your-app-password
 EMAIL_TO=recipient@email.com
 ```
