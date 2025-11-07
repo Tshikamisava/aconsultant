@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PHP Backend Debug</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .result { margin: 10px 0; padding: 10px; border-radius: 5px; white-space: pre-wrap; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        button { padding: 10px 20px; margin: 5px; }
+        .raw-response { 
+            max-height: 300px; 
+            overflow-y: auto; 
+            background: #f8f9fa; 
+            border: 1px solid #ddd; 
+            padding: 10px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>PHP Backend Debug Tool</h1>
+    
+    <button onclick="testDirectAccess()">Test Direct Access</button>
+    <button onclick="testWithData()">Test with POST Data</button>
+    <button onclick="testOptions()">Test CORS Preflight</button>
+    <button onclick="clearResults()">Clear Results</button>
+    
+    <div id="results"></div>
+
+    <script>
+        function log(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `result ${type}`;
+            div.innerHTML = `<strong>${new Date().toLocaleTimeString()}:</strong> ${message}`;
+            document.getElementById('results').appendChild(div);
+        }
+
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+        }
+
+        async function testDirectAccess() {
+            log('Testing direct access to contact.php...', 'info');
+            try {
+                const response = await fetch('http://localhost:8080/api/contact.php', {
+                    method: 'GET'
+                });
+                
+                const text = await response.text();
+                log(`Status: ${response.status}`, response.ok ? 'success' : 'error');
+                log(`Content-Type: ${response.headers.get('content-type')}`, 'info');
+                
+                const div = document.createElement('div');
+                div.className = 'result info';
+                div.innerHTML = '<strong>Raw Response:</strong><div class="raw-response">' + 
+                               text.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</div>';
+                document.getElementById('results').appendChild(div);
+                
+            } catch (error) {
+                log(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testWithData() {
+            log('Testing POST with data...', 'info');
+            try {
+                const testData = {
+                    from_name: 'Test User',
+                    from_email: 'test@example.com',
+                    message: 'This is a test message.'
+                };
+
+                const response = await fetch('http://localhost:8080/api/contact.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                const text = await response.text();
+                log(`Status: ${response.status}`, response.ok ? 'success' : 'error');
+                log(`Content-Type: ${response.headers.get('content-type')}`, 'info');
+                
+                // Try to parse as JSON
+                try {
+                    const json = JSON.parse(text);
+                    log(`JSON Response: ${JSON.stringify(json, null, 2)}`, 'success');
+                } catch (e) {
+                    log('Response is not valid JSON:', 'error');
+                    const div = document.createElement('div');
+                    div.className = 'result error';
+                    div.innerHTML = '<strong>Raw Response:</strong><div class="raw-response">' + 
+                                   text.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</div>';
+                    document.getElementById('results').appendChild(div);
+                }
+                
+            } catch (error) {
+                log(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testOptions() {
+            log('Testing CORS preflight (OPTIONS)...', 'info');
+            try {
+                const response = await fetch('http://localhost:8080/api/contact.php', {
+                    method: 'OPTIONS',
+                    headers: {
+                        'Origin': 'http://localhost:5174'
+                    }
+                });
+                
+                log(`Status: ${response.status}`, response.ok ? 'success' : 'error');
+                log(`CORS Headers:`, 'info');
+                for (const [key, value] of response.headers.entries()) {
+                    if (key.toLowerCase().startsWith('access-control')) {
+                        log(`  ${key}: ${value}`, 'info');
+                    }
+                }
+                
+            } catch (error) {
+                log(`Error: ${error.message}`, 'error');
+            }
+        }
+    </script>
+</body>
+</html>
