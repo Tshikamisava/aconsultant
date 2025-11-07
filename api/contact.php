@@ -93,9 +93,9 @@ try {
     }
     
     // Sanitize input data
-    $sender_name = filter_var(trim($data['from_name']), FILTER_SANITIZE_STRING);
+    $sender_name = htmlspecialchars(trim($data['from_name']), ENT_QUOTES, 'UTF-8');
     $sender_email = filter_var(trim($data['from_email']), FILTER_SANITIZE_EMAIL);
-    $message = filter_var(trim($data['message']), FILTER_SANITIZE_STRING);
+    $message = htmlspecialchars(trim($data['message']), ENT_QUOTES, 'UTF-8');
     
     // Validate email format
     if (!filter_var($sender_email, FILTER_VALIDATE_EMAIL)) {
@@ -189,7 +189,27 @@ try {
     );
     
     // Send email
-    $mail_sent = mail(ADMIN_EMAIL, $subject, $email_body, implode("\r\n", $headers));
+    $mail_sent = false;
+    
+    // Check if we're in a local development environment
+    $is_local = (isset($_SERVER['SERVER_NAME']) && 
+                 ($_SERVER['SERVER_NAME'] === 'localhost' || $_SERVER['SERVER_NAME'] === '127.0.0.1'));
+    
+    if ($is_local) {
+        // For local development, log the email instead of sending
+        $log_entry = "EMAIL LOG - " . date('Y-m-d H:i:s') . "\n";
+        $log_entry .= "To: " . ADMIN_EMAIL . "\n";
+        $log_entry .= "From: $sender_name <$sender_email>\n";
+        $log_entry .= "Subject: $subject\n";
+        $log_entry .= "Message:\n$message\n";
+        $log_entry .= "---\n\n";
+        
+        file_put_contents('email_test_log.txt', $log_entry, FILE_APPEND | LOCK_EX);
+        $mail_sent = true; // Simulate successful send
+    } else {
+        // Production: actually send the email
+        $mail_sent = mail(ADMIN_EMAIL, $subject, $email_body, implode("\r\n", $headers));
+    }
     
     if (!$mail_sent) {
         throw new Exception('Failed to send email. Please try again later.');
