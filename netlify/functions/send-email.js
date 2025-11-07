@@ -68,18 +68,18 @@ export const handler = async (event, context) => {
     });
 
     // Gmail SMTP configuration using environment variables
-    const transporter = nodemailer.createTransport({
+    const transporter = nodemailer.createTransporter({
       service: 'gmail',
       auth: {
-        user: process.env.EMAIL_USER, // Set in Netlify environment variables
-        pass: process.env.EMAIL_PASS  // Set in Netlify environment variables
+        user: process.env.SMTP_FROM, // Set in Netlify environment variables
+        pass: process.env.SMTP_PASS  // Set in Netlify environment variables
       }
     });
 
     // Email options
     const mailOptions = {
-      from: `"A Consultant Website" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_USER,
+      from: `"A Consultant Website" <${process.env.SMTP_FROM}>`,
+      to: process.env.SMTP_FROM,
       subject: `New Contact Form Message from ${from_name}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9;">

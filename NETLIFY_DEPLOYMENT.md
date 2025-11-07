@@ -21,8 +21,8 @@ In your Netlify dashboard:
 1. **Go to Site Settings → Environment Variables**
 2. **Add these variables**:
    ```
-   EMAIL_USER = your-gmail-address@gmail.com
-   EMAIL_PASS = your-gmail-app-password
+   SMTP_FROM = your-gmail-address@gmail.com
+   SMTP_PASS = your-gmail-app-password
    ```
 
 ### Step 4: Install Function Dependencies
@@ -66,7 +66,7 @@ This will:
 ## ✅ Testing Your Deployment
 
 1. **Deploy your site** to Netlify
-2. **Set environment variables** (EMAIL_USER and EMAIL_PASS)
+2. **Set environment variables** (SMTP_FROM and SMTP_PASS)
 3. **Test the contact form** on your live site
 4. **Check email delivery** to your configured email address
 
