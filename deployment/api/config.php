@@ -27,8 +27,8 @@ $ALLOWED_ORIGINS = [
     'http://localhost:5173',  // Vite dev server (default)
     'http://localhost:5174',  // Vite dev server (alternate port)
     'http://localhost:3000',  // Common React dev port
-    'https://aconsultant.co.za',  // Your production domain
-    'https://www.aconsultant.co.za'  // WWW version
+    'https://aconsultantant.co.za',  // Your production domain (correct spelling)
+    'https://www.aconsultantant.co.za'  // WWW version
 ];
 
 // Error handling

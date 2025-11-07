@@ -20,8 +20,8 @@ class PHPEmailService {
       // Client-side detection
       const hostname = window.location.hostname;
       if (hostname === 'localhost' || hostname === '127.0.0.1') {
-        // Local development - assume PHP server running on localhost
-        this.baseUrl = 'http://localhost/api';
+        // Local development - PHP server running on port 8080
+        this.baseUrl = 'http://localhost:8080/api';
       } else {
         // Production - use relative path (same domain)
         this.baseUrl = '/api';

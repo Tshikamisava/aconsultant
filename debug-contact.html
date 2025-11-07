@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PHP Contact Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .result { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        button { padding: 10px 20px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>PHP Contact Form Test</h1>
+    
+    <button onclick="testConnection()">Test Connection</button>
+    <button onclick="testEmailSubmission()">Test Email Submission</button>
+    
+    <div id="results"></div>
+
+    <script>
+        function log(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `result ${type}`;
+            div.textContent = new Date().toLocaleTimeString() + ': ' + message;
+            document.getElementById('results').appendChild(div);
+        }
+
+        async function testConnection() {
+            log('Testing connection to PHP backend...');
+            try {
+                const response = await fetch('http://localhost:8080/api/contact.php', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const result = await response.text();
+                log(`Connection test: ${response.status} - ${result}`, response.ok ? 'success' : 'error');
+            } catch (error) {
+                log(`Connection failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testEmailSubmission() {
+            log('Testing email submission...');
+            try {
+                const testData = {
+                    from_name: 'Test User',
+                    from_email: 'test@example.com',
+                    message: 'This is a test message from the debugging page.'
+                };
+
+                const response = await fetch('http://localhost:8080/api/contact.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                const result = await response.json();
+                log(`Email test: ${response.status} - ${JSON.stringify(result)}`, response.ok ? 'success' : 'error');
+            } catch (error) {
+                log(`Email test failed: ${error.message}`, 'error');
+            }
+        }
+    </script>
+</body>
+</html>

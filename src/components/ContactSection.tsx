@@ -32,16 +32,18 @@ const Contact = () => {
     
     try {
       console.log('📧 Using PHP email service...');
+      console.log('📧 Form data:', data);
 
       // Import PHP email service dynamically
       const { default: emailService } = await import('../../services/phpEmailService');
       
       console.log('📧 Email service status:', emailService.getStatus());
+      console.log('📧 Base URL:', emailService.getBaseUrl());
       
       // Send email using PHP backend
       const result = await emailService.sendContactEmail(data);
       
-      console.log("Email sent via PHP:", result);
+      console.log("✅ Email sent via PHP:", result);
       
       toast.success("Message sent successfully!", {
         description: "Thank you for contacting us. We'll get back to you soon!"
@@ -51,9 +53,19 @@ const Contact = () => {
     } catch (error: any) {
       console.error("Form submission error:", error);
       
+      // Show more specific error messages for debugging
+      let errorMessage = "Please contact us directly via phone or try again later.";
+      let errorDescription = "";
+      
+      if (error.message) {
+        console.error("Detailed error:", error.message);
+        // Add error details for debugging (remove in production)
+        errorDescription = `Error: ${error.message}`;
+      }
+      
       toast.error("Something went wrong", {
-        description: "Please contact us directly via phone or try again later.",
-        duration: 7000
+        description: errorDescription || errorMessage,
+        duration: 10000 // Longer duration to read error
       });
     } finally {
       setSending(false);
