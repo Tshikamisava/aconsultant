@@ -31,17 +31,17 @@ const Contact = () => {
     setSending(true);
     
     try {
-      console.log('📧 Using Netlify email service...');
+      console.log('📧 Using PHP email service...');
 
-      // Import Netlify email service dynamically
-      const { default: emailService } = await import('../../services/netlifyEmailService');
+      // Import PHP email service dynamically
+      const { default: emailService } = await import('../../services/phpEmailService');
       
       console.log('📧 Email service status:', emailService.getStatus());
       
-      // Send email using Netlify Functions
+      // Send email using PHP backend
       const result = await emailService.sendContactEmail(data);
       
-      console.log("Email sent via Netlify:", result);
+      console.log("Email sent via PHP:", result);
       
       toast.success("Message sent successfully!", {
         description: "Thank you for contacting us. We'll get back to you soon!"
