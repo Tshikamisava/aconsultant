@@ -1,30 +1,17 @@
-# A Consultant Website# React + TypeScript + Vite
+# A Consultant Website
 
+Modern, professional business website built with React, TypeScript, and Vite.
 
-
-Modern, professional business website built with React, TypeScript, and Vite.This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-
-
-## Features## 📧 Email Backend
+## Features
 
 - 🎨 Modern UI with shadcn/ui components
-
-- 📱 Fully responsive designThis project uses a **custom Node.js email backend** instead of third-party services.
-
+- 📱 Fully responsive design
 - 🚀 Fast development with Vite + HMR
-
-- 💼 Professional business sections### Quick Setup (3 steps):
-
-- 📝 Contact form (ready for backend integration)1. Generate Gmail App Password: https://myaccount.google.com/apppasswords
-
-- ⚡ TypeScript for type safety2. Add password to `server/.env`
-
-3. Run `.\start-email-server.ps1`
+- 💼 Professional business sections
+- 📝 Contact form (ready for backend integration)
+- ⚡ TypeScript for type safety
 
 ## Quick Start
-
-**� Complete Guide**: See [EMAIL_QUICKSTART.md](./EMAIL_QUICKSTART.md)
 
 1. Install dependencies: `npm install`
 
@@ -56,13 +43,10 @@ Currently, two official plugins are available:
 
 - **UI Components**: shadcn/ui
 
-- **Build Tool**: Vite## React Compiler
+- **Build Tool**: Vite
+- **Deployment**: Ready for Vercel or any static hosting
 
-- **Deployment**: Ready for Vercel/Netlify
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Project Structure
+## React Compiler
 
 ## Expanding the ESLint configuration
 

@@ -32,6 +32,3 @@ server/.env.local
 *.sw?
 
 .vercel
-
-# Local Netlify folder
-.netlify
