@@ -144,7 +144,7 @@ const ServicesSection = () => {
           {services.map((service, index) => (
             <div
               key={index}
-              className="group bg-card/80 backdrop-blur-sm rounded-2xl p-6 shadow-medium hover:shadow-glow transition-all duration-500 hover:-translate-y-3 animate-fade-in-up border-2 border-border/70 hover:border-primary/70 hover:scale-105"
+              className="group bg-card/80 backdrop-blur-sm rounded-2xl p-4 shadow-medium hover:shadow-glow transition-all duration-500 hover:-translate-y-3 animate-fade-in-up border-2 border-border/70 hover:border-primary/70 hover:scale-105"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               <div className="flex items-center gap-4 mb-6">
@@ -175,7 +175,7 @@ const ServicesSection = () => {
                 <img
                   src={image.src}
                   alt={image.title}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 brightness-75"
                 />
               </div>
             ))}
@@ -211,7 +211,7 @@ const ServicesSection = () => {
           </div>
 
           {/* Overlay Content */}
-          <div className="absolute inset-0 bg-gradient-hero flex items-center justify-center">
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70 flex items-center justify-center">
             <div className="text-center text-primary-foreground px-6 animate-fade-in-up">
               <h3 className="font-heading text-3xl md:text-4xl mb-4 tracking-wide font-normal">
                 {slideshowImages[currentSlide].title}

@@ -61,12 +61,12 @@ const About = () => {
           </p>
         </div>
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full max-w-3xl mx-auto grid-cols-2 md:grid-cols-4 mb-12 h-auto bg-background shadow-lg">
+          <TabsList className="grid w-full max-w-4xl mx-auto grid-cols-2 md:grid-cols-4 mb-12 h-auto bg-background shadow-lg">
             {tabs.map((tab) => (
               <TabsTrigger
                 key={tab.value}
                 value={tab.value}
-                className="flex items-center gap-2 py-4 text-base data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                className="flex items-center gap-2 py-4 px-6 text-base data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
               >
                 <tab.icon size={20} />
                 <span className="hidden sm:inline">{tab.label}</span>
