@@ -127,20 +127,56 @@ const keyFactors = [
         description:
           "Explore opportunities for automation in repetitive tasks, such as drafting, to increase efficiency.",
       },
+    ],
+  },
+  {
+    number: "08",
+    title: "Systemised Libraries",
+    image: technologyImage,
+    items: [
       {
-        title: "Systemised Libraries",
+        title: "Design Library Management",
         description:
           "Development and management of design libraries to streamline and standardise processes.",
       },
       {
-        title: "2D to 3D Conversion",
+        title: "Standardisation Benefits",
+        description:
+          "Implementing consistent design elements and templates to improve efficiency and maintain quality across all projects.",
+      },
+    ],
+  },
+  {
+    number: "09",
+    title: "2D to 3D Conversion",
+    image: technologyImage,
+    items: [
+      {
+        title: "Enhanced Visualisation",
         description:
           "Transforming traditional 2D designs into sophisticated 3D models for enhanced visualisation and accuracy.",
       },
       {
-        title: "BIM Optimisation",
+        title: "Improved Communication",
+        description:
+          "3D models provide clearer communication with clients and stakeholders, reducing misunderstandings and project revisions.",
+      },
+    ],
+  },
+  {
+    number: "10",
+    title: "BIM Optimisation",
+    image: technologyImage,
+    items: [
+      {
+        title: "BIM 360 Integration",
         description:
           "Leveraging Building Information Management (BIM) 360 to improve design coordination and project execution.",
+      },
+      {
+        title: "Collaborative Design",
+        description:
+          "Enhanced collaboration between disciplines through integrated BIM workflows and real-time project coordination.",
       },
     ],
   },
@@ -160,12 +196,12 @@ const HowWeWorkSection = () => {
   };
 
   return (
-    <section id="how-we-work" className="py-16 bg-gradient-to-b from-[#e5effa] to-white relative overflow-hidden">
+    <section id="how-we-work" className="py-8 bg-gradient-to-b from-[#e5effa] to-white relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 bg-gradient-mesh opacity-5" />
       
       <div className="container mx-auto px-6 relative z-10">
-        <div className="text-center mb-12 animate-fade-in-up">
+        <div className="text-center mb-8 animate-fade-in-up">
           <div className="inline-block mb-3">
             <span className="font-body px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold tracking-wide">
               OUR PROCESS

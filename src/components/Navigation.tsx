@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Home, User, Layers, Briefcase, BookOpen, Menu, X } from "lucide-react";
-import logo from "@/assets/logo.png";
+import logo1 from "@/assets/logo1.png";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -115,8 +115,8 @@ const Navigation = () => {
       <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4 max-w-7xl">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-0">
-            <img src={logo} alt="A Consultant" className="h-7 sm:h-8 md:h-9 lg:h-10 w-auto" />
-            <span className="font-heading text-base sm:text-lg md:text-xl lg:text-2xl font-normal text-primary whitespace-nowrap">Consultant</span>
+            <img src={logo1} alt="A Consultant" className="h-7 sm:h-8 md:h-9 lg:h-10 w-auto" />
+            <span className="font-heading text-base sm:text-lg md:text-xl lg:text-2xl font-normal text-primary whitespace-nowrap">CONSULTANT</span>
           </div>
 
           {/* Mobile menu button */}
