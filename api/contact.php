@@ -2,23 +2,113 @@
 // contact.php - Handle contact form submissions
 // For use with Hostking or any PHP hosting provider
 
-// Force JSON output and error handling
+// Set error handling FIRST before anything else
 ini_set('display_errors', 0);
-error_reporting(0);
+ini_set('log_errors', 1);
+error_reporting(E_ALL);
 
-// Start output buffering to catch any unexpected output
+// Start output buffering IMMEDIATELY to catch any output
 ob_start();
 
+// Function to ensure JSON output on any error
+function sendJsonResponse($success, $message, $statusCode = 200) {
+    // Clear any existing output
+    while (ob_get_level() > 0) {
+        ob_end_clean();
+    }
+    
+    // Set headers
+    header('Content-Type: application/json; charset=utf-8');
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: POST, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type, X-Requested-With');
+    http_response_code($statusCode);
+    
+    // Send JSON response
+    echo json_encode([
+        'success' => $success,
+        'message' => $success ? $message : null,
+        'error' => !$success ? $message : null,
+        'timestamp' => date('Y-m-d H:i:s T')
+    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
+// Register shutdown function to catch fatal errors
+register_shutdown_function(function() {
+    $error = error_get_last();
+    if ($error !== NULL && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
+        // Only send JSON if headers haven't been sent
+        if (!headers_sent()) {
+            // Clear output buffer
+            while (ob_get_level() > 0) {
+                ob_end_clean();
+            }
+            header('Content-Type: application/json; charset=utf-8');
+            header('Access-Control-Allow-Origin: *');
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'error' => 'A server error occurred. Please try again later.',
+                'timestamp' => date('Y-m-d H:i:s T')
+            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        }
+    }
+});
+
 try {
-    // Load configuration
-    require_once 'config.php';
+    // Load configuration with error handling
+    if (!file_exists(__DIR__ . '/config.php')) {
+        throw new Exception('Configuration file not found');
+    }
+    
+    require_once __DIR__ . '/config.php';
+    
+    // Verify required constants are defined
+    if (!defined('ADMIN_EMAIL') || !defined('FROM_EMAIL') || !defined('FROM_NAME')) {
+        throw new Exception('Configuration incomplete: missing required email settings');
+    }
+    
+    if (!defined('MAX_EMAILS_PER_IP_PER_HOUR')) {
+        define('MAX_EMAILS_PER_IP_PER_HOUR', 5);
+    }
+    
+    if (!defined('MIN_NAME_LENGTH')) {
+        define('MIN_NAME_LENGTH', 2);
+    }
+    
+    if (!defined('MAX_NAME_LENGTH')) {
+        define('MAX_NAME_LENGTH', 100);
+    }
+    
+    if (!defined('MIN_MESSAGE_LENGTH')) {
+        define('MIN_MESSAGE_LENGTH', 10);
+    }
+    
+    if (!defined('MAX_MESSAGE_LENGTH')) {
+        define('MAX_MESSAGE_LENGTH', 2000);
+    }
+    
+    if (!isset($SPAM_KEYWORDS) || !is_array($SPAM_KEYWORDS)) {
+        $SPAM_KEYWORDS = [
+            'viagra', 'casino', 'lottery', 'winner', 'congratulations',
+            'free money', 'click here', 'act now', 'urgent', 'limited time'
+        ];
+    }
+    
+    if (!isset($ALLOWED_ORIGINS) || !is_array($ALLOWED_ORIGINS)) {
+        $ALLOWED_ORIGINS = ['*'];
+    }
 
     // Set CORS headers based on configuration
     $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-    if (in_array($origin, $ALLOWED_ORIGINS)) {
+    if (!empty($origin) && in_array($origin, $ALLOWED_ORIGINS)) {
         header("Access-Control-Allow-Origin: $origin");
+    } elseif (in_array('*', $ALLOWED_ORIGINS)) {
+        header('Access-Control-Allow-Origin: *');
     } else {
-        header('Access-Control-Allow-Origin: *'); // Fallback for development
+        // Default: allow from same origin
+        header('Access-Control-Allow-Origin: ' . ($_SERVER['HTTP_ORIGIN'] ?? '*'));
     }
 
     header('Access-Control-Allow-Methods: POST, OPTIONS');
@@ -34,19 +124,22 @@ try {
 
     // Only allow POST requests
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        throw new Exception('Method not allowed');
+        sendJsonResponse(false, 'Method not allowed. Only POST requests are accepted.', 405);
     }
 
     // Simple rate limiting based on IP
     function checkRateLimit($ip) {
-        $log_file = 'email_log.txt';
+        $log_file = __DIR__ . '/email_log.txt';
         $current_time = time();
         $one_hour_ago = $current_time - 3600;
         
-        // Read existing log
+        // Read existing log (suppress warnings if file doesn't exist)
         $entries = [];
-        if (file_exists($log_file)) {
-            $entries = file($log_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        if (file_exists($log_file) && is_readable($log_file)) {
+            $file_contents = @file($log_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            if ($file_contents !== false) {
+                $entries = $file_contents;
+            }
         }
         
         // Filter entries from the last hour for this IP
@@ -62,9 +155,9 @@ try {
             return false;
         }
         
-        // Add current entry
+        // Add current entry (suppress warnings if write fails)
         $new_entry = $current_time . '|' . $ip . PHP_EOL;
-        file_put_contents($log_file, $new_entry, FILE_APPEND | LOCK_EX);
+        @file_put_contents($log_file, $new_entry, FILE_APPEND | LOCK_EX);
         
         return true;
     }
@@ -93,9 +186,9 @@ try {
     }
     
     // Sanitize input data
-    $sender_name = htmlspecialchars(trim($data['from_name']), ENT_QUOTES, 'UTF-8');
-    $sender_email = filter_var(trim($data['from_email']), FILTER_SANITIZE_EMAIL);
-    $message = htmlspecialchars(trim($data['message']), ENT_QUOTES, 'UTF-8');
+    $sender_name = htmlspecialchars(trim($data['from_name'] ?? ''), ENT_QUOTES, 'UTF-8');
+    $sender_email = filter_var(trim($data['from_email'] ?? ''), FILTER_SANITIZE_EMAIL);
+    $message = htmlspecialchars(trim($data['message'] ?? ''), ENT_QUOTES, 'UTF-8');
     
     // Validate email format
     if (!filter_var($sender_email, FILTER_VALIDATE_EMAIL)) {
@@ -204,11 +297,12 @@ try {
         $log_entry .= "Message:\n$message\n";
         $log_entry .= "---\n\n";
         
-        file_put_contents('email_test_log.txt', $log_entry, FILE_APPEND | LOCK_EX);
+        $log_file = __DIR__ . '/email_test_log.txt';
+        @file_put_contents($log_file, $log_entry, FILE_APPEND | LOCK_EX);
         $mail_sent = true; // Simulate successful send
     } else {
         // Production: actually send the email
-        $mail_sent = mail(ADMIN_EMAIL, $subject, $email_body, implode("\r\n", $headers));
+        $mail_sent = @mail(ADMIN_EMAIL, $subject, $email_body, implode("\r\n", $headers));
     }
     
     if (!$mail_sent) {
@@ -216,32 +310,16 @@ try {
     }
     
     // Success response
-    ob_clean(); // Clear any unexpected output
-    http_response_code(200);
-    echo json_encode([
-        'success' => true,
-        'message' => 'Email sent successfully',
-        'timestamp' => date('Y-m-d H:i:s T')
-    ]);
+    sendJsonResponse(true, 'Email sent successfully', 200);
     
 } catch (Exception $e) {
     // Error response
-    ob_clean(); // Clear any previous output
-    http_response_code(400);
-    echo json_encode([
-        'success' => false,
-        'error' => $e->getMessage()
-    ]);
+    sendJsonResponse(false, $e->getMessage(), 400);
 } catch (Error $e) {
-    // Fatal error response
-    ob_clean(); // Clear any previous output
-    http_response_code(500);
-    echo json_encode([
-        'success' => false,
-        'error' => 'Server error occurred'
-    ]);
+    // Fatal error response (PHP 7+)
+    sendJsonResponse(false, 'A server error occurred. Please try again later.', 500);
+} catch (Throwable $e) {
+    // Catch any other throwable (PHP 7+)
+    sendJsonResponse(false, 'An unexpected error occurred. Please try again later.', 500);
 }
-
-// Clean up output buffer
-ob_end_flush();
 ?>

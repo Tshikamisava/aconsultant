@@ -14,7 +14,17 @@ define('MAX_NAME_LENGTH', 100);
 define('MIN_NAME_LENGTH', 2);
 
 // Rate limiting (basic protection)
-define('MAX_EMAILS_PER_IP_PER_HOUR', 5);
+// Higher limit for local development, lower for production
+$is_local_dev = false;
+if (isset($_SERVER['SERVER_NAME'])) {
+    $server_name = strtolower($_SERVER['SERVER_NAME']);
+    $is_local_dev = ($server_name === 'localhost' || 
+                     $server_name === '127.0.0.1' || 
+                     strpos($server_name, 'localhost') !== false);
+}
+if (!defined('MAX_EMAILS_PER_IP_PER_HOUR')) {
+    define('MAX_EMAILS_PER_IP_PER_HOUR', $is_local_dev ? 50 : 5);
+}
 
 // Spam protection keywords
 $SPAM_KEYWORDS = [
@@ -26,13 +36,14 @@ $SPAM_KEYWORDS = [
 $ALLOWED_ORIGINS = [
     'http://localhost:5173',  // Vite dev server (default)
     'http://localhost:5174',  // Vite dev server (alternate port)
+    'http://localhost:5175',  // Vite dev server (alternate port 2)
     'http://localhost:3000',  // Common React dev port
     'https://aconsultant.co.za',  // Your production domain
     'https://www.aconsultant.co.za'  // WWW version
 ];
 
 // Error handling
-$environment = $_ENV['ENVIRONMENT'] ?? $_SERVER['ENVIRONMENT'] ?? 'development';
+$environment = $_ENV['ENVIRONMENT'] ?? $_SERVER['ENVIRONMENT'] ?? 'production';
 if ($environment === 'production') {
     error_reporting(0);
     ini_set('display_errors', 0);
