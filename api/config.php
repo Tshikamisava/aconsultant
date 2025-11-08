@@ -15,9 +15,16 @@ define('MIN_NAME_LENGTH', 2);
 
 // Rate limiting (basic protection)
 // Higher limit for local development, lower for production
-$is_local_dev = (isset($_SERVER['SERVER_NAME']) && 
-                 ($_SERVER['SERVER_NAME'] === 'localhost' || $_SERVER['SERVER_NAME'] === '127.0.0.1'));
-define('MAX_EMAILS_PER_IP_PER_HOUR', $is_local_dev ? 50 : 5);
+$is_local_dev = false;
+if (isset($_SERVER['SERVER_NAME'])) {
+    $server_name = strtolower($_SERVER['SERVER_NAME']);
+    $is_local_dev = ($server_name === 'localhost' || 
+                     $server_name === '127.0.0.1' || 
+                     strpos($server_name, 'localhost') !== false);
+}
+if (!defined('MAX_EMAILS_PER_IP_PER_HOUR')) {
+    define('MAX_EMAILS_PER_IP_PER_HOUR', $is_local_dev ? 50 : 5);
+}
 
 // Spam protection keywords
 $SPAM_KEYWORDS = [
