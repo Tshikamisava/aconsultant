@@ -1,74 +1,80 @@
-import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
-
 import { toast } from "@/components/ui/sonner";
-
 import { useState } from "react";
+import emailService from "@/services/emailService";
 
 const Contact = () => {
-  const [sending, setSending] = useState(false);
+  const [formData, setFormData] = useState({
+    from_name: '',
+    from_email: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const form = e.currentTarget as HTMLFormElement;
     
-    if (!form.checkValidity()) {
-      toast.error("Please fill in all fields before sending.");
+    // Basic validation
+    if (!formData.from_name || !formData.from_email || !formData.message) {
+      toast.error("Please fill in all fields.");
       return;
     }
 
-    // Get form data
-    const formData = new FormData(form);
-    const data = {
-      from_name: formData.get('from_name') as string,
-      from_email: formData.get('from_email') as string,
-      message: formData.get('message') as string,
-    };
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.from_email)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
 
-    setSending(true);
-    
+    setIsSubmitting(true);
+
     try {
-      console.log('📧 Using PHP email service...');
-      console.log('📧 Form data:', data);
-
-      // Import PHP email service dynamically
-      const { default: emailService } = await import('../../services/phpEmailService');
-      
-      console.log('📧 Email service status:', emailService.getStatus());
-      console.log('📧 Base URL:', emailService.getBaseUrl());
-      
-      // Send email using PHP backend
-      const result = await emailService.sendContactEmail(data);
-      
-      console.log("✅ Email sent via PHP:", result);
-      
-      toast.success("Message sent successfully!", {
-        description: "Thank you for contacting us. We'll get back to you soon!"
+      console.log('📧 Sending contact form email...', {
+        name: formData.from_name,
+        email: formData.from_email,
+        messageLength: formData.message.length
       });
-      form.reset();
-      
-    } catch (error: any) {
-      console.error("Form submission error:", error);
-      
-      // Show more specific error messages for debugging
-      let errorMessage = "Please contact us directly via phone or try again later.";
-      let errorDescription = "";
-      
-      if (error.message) {
-        console.error("Detailed error:", error.message);
-        // Add error details for debugging (remove in production)
-        errorDescription = `Error: ${error.message}`;
+
+      // Send email using EmailJS service
+      const result = await emailService.sendContactEmail(formData);
+
+      if (result.success) {
+        toast.success("Message sent successfully!", {
+          description: result.message
+        });
+        
+        // Reset form on success
+        setFormData({
+          from_name: '',
+          from_email: '',
+          message: ''
+        });
+      } else {
+        toast.error("Failed to send message", {
+          description: result.message
+        });
       }
-      
+
+    } catch (error) {
+      console.error('Contact form error:', error);
       toast.error("Something went wrong", {
-        description: errorDescription || errorMessage,
-        duration: 10000 // Longer duration to read error
+        description: "Please try again or contact us directly."
       });
     } finally {
-      setSending(false);
+      setIsSubmitting(false);
     }
   };
 
@@ -111,7 +117,7 @@ const Contact = () => {
           {/* Contact Form */}
           <Card className="animate-fade-in border-border shadow-lg">
             <CardContent className="p-8">
-              <form id="contact-form" onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="name" className="block font-body text-sm font-medium text-foreground mb-2">
                     Your Name
@@ -122,6 +128,8 @@ const Contact = () => {
                     type="text"
                     placeholder="John Doe"
                     required
+                    value={formData.from_name}
+                    onChange={handleInputChange}
                     className="w-full"
                   />
                 </div>
@@ -135,6 +143,8 @@ const Contact = () => {
                     type="email"
                     placeholder="john@example.com"
                     required
+                    value={formData.from_email}
+                    onChange={handleInputChange}
                     className="w-full"
                   />
                 </div>
@@ -147,20 +157,13 @@ const Contact = () => {
                     name="message"
                     placeholder="Tell us about your project..."
                     required
+                    value={formData.message}
+                    onChange={handleInputChange}
                     className="w-full min-h-[150px]"
                   />
                 </div>
-                <Button type="submit" size="lg" className="w-full" disabled={sending}>
-                  {sending ? (
-                    <span className="flex items-center justify-center w-full">
-                      Sending...
-                    </span>
-                  ) : (
-                    <>
-                      Send Message
-                      <Send size={18} className="ml-2" />
-                    </>
-                  )}
+                <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
                 </Button>
               </form>
             </CardContent>

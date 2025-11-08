@@ -203,7 +203,6 @@ src/
 
 - **JWT Authentication** - Secure token-based authentication
 - **Password Hashing** - Bcrypt encryption for passwords
-- **Rate Limiting** - Prevents spam on email endpoint
 - **CORS Protection** - Configured allowed origins
 - **Helmet Security** - HTTP security headers
 - **Input Validation** - Validates all user inputs
@@ -300,9 +299,6 @@ PORT=3001
 JWT_SECRET=your-production-secret-key
 ALLOWED_ORIGINS=https://yourdomain.com
 ```
-
-**Note:** This project now uses PHP backend for email functionality. 
-Email configuration is handled in `api/config.php` - no environment variables needed.
 
 ---
 
