@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Home, User, Layers, Briefcase, BookOpen, Menu, X } from "lucide-react";
-import logo from "@/assets/logo.png";
+import { Menu, X } from "lucide-react";
+import logo1 from "@/assets/logo1.png";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -115,8 +115,8 @@ const Navigation = () => {
       <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4 max-w-7xl">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-0">
-            <img src={logo} alt="A Consultant" className="h-7 sm:h-8 md:h-9 lg:h-10 w-auto" />
-            <span className="font-heading text-base sm:text-lg md:text-xl lg:text-2xl font-normal text-primary whitespace-nowrap">Consultant</span>
+            <img src={logo1} alt="A Consultant" className="h-7 sm:h-8 md:h-9 lg:h-10 w-auto" />
+            <span className="font-heading text-base sm:text-lg md:text-xl lg:text-2xl font-normal text-primary whitespace-nowrap">CONSULTANT</span>
           </div>
 
           {/* Mobile menu button */}
@@ -141,9 +141,8 @@ const Navigation = () => {
             <a
               href="/"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="font-body text-foreground hover:text-primary transition-colors text-lg font-medium flex items-center justify-center py-4 px-8 rounded-lg hover:bg-primary/5 w-full max-w-sm"
+              className="font-body text-foreground hover:text-primary transition-colors text-xl font-medium flex items-center justify-center py-4 px-8 rounded-lg hover:bg-primary/5 w-full max-w-sm"
             >
-              <Home size={20} className="mr-2" />
               Home
             </a>
             <button
@@ -151,9 +150,8 @@ const Navigation = () => {
                 setIsMobileMenuOpen(false);
                 scrollToSection("about");
               }}
-              className="text-foreground hover:text-primary transition-colors text-lg font-medium flex items-center justify-center py-4 px-8 rounded-lg hover:bg-primary/5 w-full max-w-sm"
+              className="text-foreground hover:text-primary transition-colors text-xl font-medium flex items-center justify-center py-4 px-8 rounded-lg hover:bg-primary/5 w-full max-w-sm"
             >
-              <User size={20} className="mr-2" />
               About
             </button>
             <button
@@ -161,9 +159,8 @@ const Navigation = () => {
                 setIsMobileMenuOpen(false);
                 scrollToSection("services");
               }}
-              className="text-foreground hover:text-primary transition-colors text-lg font-medium flex items-center justify-center py-4 px-8 rounded-lg hover:bg-primary/5 w-full max-w-sm"
+              className="text-foreground hover:text-primary transition-colors text-xl font-medium flex items-center justify-center py-4 px-8 rounded-lg hover:bg-primary/5 w-full max-w-sm"
             >
-              <Layers size={20} className="mr-2" />
               Services
             </button>
             <button
@@ -171,17 +168,15 @@ const Navigation = () => {
                 setIsMobileMenuOpen(false);
                 scrollToSection("how-we-work");
               }}
-              className="text-foreground hover:text-primary transition-colors text-lg font-medium flex items-center justify-center py-4 px-8 rounded-lg hover:bg-primary/5 w-full max-w-sm"
+              className="text-foreground hover:text-primary transition-colors text-xl font-medium flex items-center justify-center py-4 px-8 rounded-lg hover:bg-primary/5 w-full max-w-sm"
             >
-              <Briefcase size={20} className="mr-2" />
               Key Factor
             </button>
             <a
               href="/blog"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-foreground hover:text-primary transition-colors text-lg font-medium flex items-center justify-center py-4 px-8 rounded-lg hover:bg-primary/5 w-full max-w-sm"
+              className="text-foreground hover:text-primary transition-colors text-xl font-medium flex items-center justify-center py-4 px-8 rounded-lg hover:bg-primary/5 w-full max-w-sm"
             >
-              <BookOpen size={20} className="mr-2" />
               Blog
             </a>
             <Button
@@ -199,37 +194,32 @@ const Navigation = () => {
           <div className="hidden lg:flex items-center space-x-6 xl:space-x-8">
             <a
               href="/"
-              className={`${linkColorClass} hover:text-primary transition-colors text-sm xl:text-base font-medium flex items-center`}
+              className={`${linkColorClass} hover:text-primary transition-colors text-base xl:text-lg font-medium`}
             >
-              <Home size={14} className={`mr-1.5 xl:mr-2 ${linkColorClass}`} />
               Home
             </a>
             <button
               onClick={() => scrollToSection("about")}
-              className={`${linkColorClass} hover:text-primary transition-colors text-sm xl:text-base font-medium flex items-center`}
+              className={`${linkColorClass} hover:text-primary transition-colors text-base xl:text-lg font-medium`}
             >
-              <User size={14} className={`mr-1.5 xl:mr-2 ${linkColorClass}`} />
               About
             </button>
             <button
               onClick={() => scrollToSection("services")}
-              className={`${linkColorClass} hover:text-primary transition-colors text-sm xl:text-base font-medium flex items-center`}
+              className={`${linkColorClass} hover:text-primary transition-colors text-base xl:text-lg font-medium`}
             >
-              <Layers size={14} className={`mr-1.5 xl:mr-2 ${linkColorClass}`} />
               Services
             </button>
             <button
               onClick={() => scrollToSection("how-we-work")}
-              className={`${linkColorClass} hover:text-primary transition-colors text-sm xl:text-base font-medium flex items-center whitespace-nowrap`}
+              className={`${linkColorClass} hover:text-primary transition-colors text-base xl:text-lg font-medium whitespace-nowrap`}
             >
-              <Briefcase size={14} className={`mr-1.5 xl:mr-2 ${linkColorClass}`} />
               Key Factor
             </button>
             <a
               href="/blog"
-              className={`${linkColorClass} hover:text-primary transition-colors text-sm xl:text-base font-medium flex items-center`}
+              className={`${linkColorClass} hover:text-primary transition-colors text-base xl:text-lg font-medium`}
             >
-              <BookOpen size={14} className={`mr-1.5 xl:mr-2 ${linkColorClass}`} />
               Blog
             </a>
           </div>
@@ -238,33 +228,31 @@ const Navigation = () => {
           <div className="hidden md:flex lg:hidden items-center space-x-3">
             <a
               href="/"
-              className={`${linkColorClass} hover:text-primary transition-colors text-xs font-medium flex items-center`}
+              className={`${linkColorClass} hover:text-primary transition-colors text-sm font-medium`}
             >
-              <Home size={12} className={`mr-1 ${linkColorClass}`} />
               Home
             </a>
             <button
               onClick={() => scrollToSection("about")}
-              className={`${linkColorClass} hover:text-primary transition-colors text-xs font-medium flex items-center`}
+              className={`${linkColorClass} hover:text-primary transition-colors text-sm font-medium`}
             >
-              <User size={12} className={`mr-1 ${linkColorClass}`} />
               About
             </button>
             <button
               onClick={() => scrollToSection("services")}
-              className={`${linkColorClass} hover:text-primary transition-colors text-xs font-medium`}
+              className={`${linkColorClass} hover:text-primary transition-colors text-sm font-medium`}
             >
               Services
             </button>
             <button
               onClick={() => scrollToSection("how-we-work")}
-              className={`${linkColorClass} hover:text-primary transition-colors text-xs font-medium whitespace-nowrap`}
+              className={`${linkColorClass} hover:text-primary transition-colors text-sm font-medium whitespace-nowrap`}
             >
               Key Factor
             </button>
             <a
               href="/blog"
-              className={`${linkColorClass} hover:text-primary transition-colors text-xs font-medium`}
+              className={`${linkColorClass} hover:text-primary transition-colors text-sm font-medium`}
             >
               Blog
             </a>

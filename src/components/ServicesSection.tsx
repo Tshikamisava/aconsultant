@@ -1,11 +1,5 @@
 import { useState, useEffect } from "react";
 import {
-  Home,
-  Construction,
-  Layers,
-  Zap,
-  PenTool,
-  Boxes,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
@@ -15,41 +9,68 @@ import workflowImage from "@/assets/workflow.jpg";
 import hero1Image from "@/assets/hero-1.jpg";
 import hero2Image from "@/assets/hero-2.jpg";
 import hero3Image from "@/assets/hero-3.jpg";
-import architecturalIcon from "@/assets/icon1.png";
 
 const services = [
   {
-    customIcon: architecturalIcon,
+    customIcon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <path fill="currentColor" d="M17 9h2V7h-2zm0 4h2v-2h-2zm0 4h2v-2h-2zm0 4v-2h4V5h-9v1.4l-2-1.45V3h13v18zM1 21V11l7-5l7 5v10H9v-5H7v5zm2-2h2v-5h6v5h2v-7L8 8.45L3 12zm8 0v-5H5v5v-5h6z"/>
+      </svg>
+    ),
     title: "Architectural Design",
     description:
       "We deliver creative and functional architectural designs tailored to both commercial and residential projects. Our services focus on crafting visually appealing and practical solutions that meet client needs, enhance usability, and align with modern design standards.",
   },
   {
-    icon: Construction,
+    customIcon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="576" height="512" viewBox="0 0 576 512">
+        <path fill="currentColor" d="M352 264V64c0-17.7-14.3-32-32-32h-64c-17.7 0-32 14.3-32 32v200c0 13.3-10.7 24-24 24s-24-10.7-24-24V78.1C90 109.8 32 191.8 32 288v64h512v-64c-1-95.2-58.4-177.7-144-209.8V264c0 13.3-10.7 24-24 24s-24-10.7-24-24M40 400c-22.1 0-40 17.9-40 40s17.9 40 40 40h496c22.1 0 40-17.9 40-40s-17.9-40-40-40z"/>
+      </svg>
+    ),
     title: "Civil Design",
     description:
       "We specialise in detailed draughting and design for civil engineering projects, including infrastructure such as commercial and residential buildings, roads, highways, and process plants. Our services ensure precise and comprehensive plans that support efficient design, planning, and execution of complex projects.",
   },
   {
-    icon: Zap,
+    customIcon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <path fill="currentColor" d="M11 15H6l7-14v8h5l-7 14z"/>
+      </svg>
+    ),
     title: "Electrical Design",
     description:
       "We offer specialised draughting and design support for electrical engineering projects across various industries, including mining process plants, renewable energy, roads, highways, and building services. Our expertise extends to creating accurate layout drawings for MV & HV reticulation systems and substations ranging from 6.6kV to 400kV.",
   },
   {
-    icon: PenTool,
+    customIcon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <path fill="currentColor" d="M22 13v8h-2v-2h-3.42c-.77 1.76-2.53 3-4.58 3s-3.81-1.24-4.58-3H4v2H2v-8h2v2h3.43c.5-1.15 1.42-2.07 2.57-2.58V11H8V9h8v2h-2v1.42c1.15.51 2.07 1.43 2.57 2.58H20v-2zM17 2H7c-.55 0-1 .45-1 1s.45 1 1 1h3v1h1v3h2V5h1V4h3c.55 0 1-.45 1-1s-.45-1-1-1"/>
+      </svg>
+    ),
     title: "Piping Design",
     description:
       "With extensive experience in petrochemical facilities and process plants, we offer reliable draughting support to your piping engineering team. Our accurate and detailed designs for piping systems ensure precise layouts that prioritise functionality, efficiency, and adherence to engineering standards.",
   },
   {
-    icon: Boxes,
+    customIcon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+        <path fill="currentColor" d="M31 22v-2h-2.1a5 5 0 0 0-.733-1.753l1.49-1.49l-1.414-1.414l-1.49 1.49A5 5 0 0 0 25 16.101V14h-2v2.101a5 5 0 0 0-1.753.732l-1.49-1.49l-1.414 1.414l1.49 1.49A5 5 0 0 0 19.1 20H17v2h2.1c.13.637.384 1.229.732 1.753l-1.49 1.49l1.414 1.414l1.49-1.49A5 5 0 0 0 23 25.9V28h2v-2.1a5 5 0 0 0 1.753-.732l1.49 1.49l1.414-1.414l-1.49-1.49A5 5 0 0 0 28.9 22zm-7 2a3 3 0 1 1 0-6a3 3 0 0 1 0 6"/>
+        <path fill="currentColor" d="M21 6c0-2.757-2.243-5-5-5c-1.78 0-3.439.958-4.33 2.5a5.2 5.2 0 0 0-.63 1.794A6.96 6.96 0 0 0 7 4c-3.86 0-7 3.14-7 7a7 7 0 0 0 3.779 6.208C2.7 18.126 2 19.476 2 21c0 2.757 2.243 5 5 5c.734 0 1.427-.168 2.055-.454C9.332 28.043 11.43 30 14 30a4.97 4.97 0 0 0 3.536-1.464l-1.415-1.415A2.98 2.98 0 0 1 14 28c-1.654 0-3-1.346-3-3s1.346-3 3-3v-2c-.735 0-1.427.169-2.055.454a5 5 0 0 0-1.722-3.246A7 7 0 0 0 14 11c0-.147-.014-.291-.023-.436c.62.276 1.302.436 2.023.436c2.757 0 5-2.243 5-5m-7.6-1.5A3.01 3.01 0 0 1 16 3c1.654 0 3 1.346 3 3s-1.346 3-3 3s-3-1.346-3-3h-.03c.036-.576.172-1.052.43-1.5M10 21c0 1.654-1.346 3-3 3s-3-1.346-3-3s1.346-3 3-3s3 1.346 3 3m-3-5c-2.757 0-5-2.243-5-5s2.243-5 5-5s5 2.243 5 5s-2.243 5-5 5"/>
+      </svg>
+    ),
     title: "Mechanical Design",
     description:
       "We provide advanced draughting and design solutions for mechanical systems, supporting your teams in optimising performance, reliability, and efficiency. Our expertise ensures each system is designed to meet industry standards, delivering long-lasting, high-quality results.",
   },
   {
-    icon: Layers,
+    customIcon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M2 12c0-2.482.518-3 3-3h2c2.482 0 3 .518 3 3s-.518 3-3 3H5c-2.482 0-3-.518-3-3Zm12-5c0-2.482.518-3 3-3h2c2.482 0 3 .518 3 3s-.518 3-3 3h-2c-2.482 0-3-.518-3-3Zm0 10c0-2.482.518-3 3-3h2c2.482 0 3 .518 3 3s-.518 3-3 3h-2c-2.482 0-3-.518-3-3Z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" d="m14 7l-3 5l3 5"/>
+        </g>
+      </svg>
+    ),
     title: "Structural Design",
     description:
       "We offer detailed draughting and design services to support structural engineering across industries. Our expertise ensures every design maintains structural integrity, adheres to industry standards, and is optimised for functionality to meet unique project requirements.",
@@ -123,20 +144,14 @@ const ServicesSection = () => {
           {services.map((service, index) => (
             <div
               key={index}
-              className="group bg-card/80 backdrop-blur-sm rounded-2xl p-6 shadow-medium hover:shadow-glow transition-all duration-500 hover:-translate-y-3 animate-fade-in-up border-2 border-border/70 hover:border-primary/70 hover:scale-105"
+              className="group bg-card/80 backdrop-blur-sm rounded-2xl p-4 shadow-medium hover:shadow-glow transition-all duration-500 hover:-translate-y-3 animate-fade-in-up border-2 border-border/70 hover:border-primary/70 hover:scale-105"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-medium flex-shrink-0">
-                  {service.customIcon ? (
-                    <img 
-                      src={service.customIcon} 
-                      alt={service.title}
-                      className="w-12 h-12 object-contain brightness-0 invert"
-                    />
-                  ) : service.icon ? (
-                    <service.icon className="w-8 h-8 text-primary-foreground" />
-                  ) : null}
+                  <div className="w-8 h-8 text-primary-foreground flex items-center justify-center">
+                    {service.customIcon}
+                  </div>
                 </div>
                 <h3 className="font-heading text-xl font-normal text-foreground group-hover:text-primary transition-colors">
                   {service.title}
@@ -160,7 +175,7 @@ const ServicesSection = () => {
                 <img
                   src={image.src}
                   alt={image.title}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 brightness-75"
                 />
               </div>
             ))}
@@ -196,7 +211,7 @@ const ServicesSection = () => {
           </div>
 
           {/* Overlay Content */}
-          <div className="absolute inset-0 bg-gradient-hero flex items-center justify-center">
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70 flex items-center justify-center">
             <div className="text-center text-primary-foreground px-6 animate-fade-in-up">
               <h3 className="font-heading text-3xl md:text-4xl mb-4 tracking-wide font-normal">
                 {slideshowImages[currentSlide].title}
