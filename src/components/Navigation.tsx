@@ -116,7 +116,7 @@ const Navigation = () => {
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-0">
             <img src={logo} alt="A Consultant" className="h-7 sm:h-8 md:h-9 lg:h-10 w-auto" />
-            <span className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-primary whitespace-nowrap">Consultant</span>
+            <span className="font-heading text-base sm:text-lg md:text-xl lg:text-2xl font-normal text-primary whitespace-nowrap">Consultant</span>
           </div>
 
           {/* Mobile menu button */}
@@ -141,7 +141,7 @@ const Navigation = () => {
             <a
               href="/"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-foreground hover:text-primary transition-colors text-lg font-medium flex items-center justify-center py-4 px-8 rounded-lg hover:bg-primary/5 w-full max-w-sm"
+              className="font-body text-foreground hover:text-primary transition-colors text-lg font-medium flex items-center justify-center py-4 px-8 rounded-lg hover:bg-primary/5 w-full max-w-sm"
             >
               <Home size={20} className="mr-2" />
               Home

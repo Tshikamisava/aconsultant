@@ -97,10 +97,10 @@ const Contact = () => {
     <section id="contact" className="py-24 bg-secondary/30">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16 animate-fade-in">
-          <h2 className="font-heading text-4xl md:text-5xl text-foreground mb-4 tracking-wide">
+          <h2 className="font-heading text-4xl md:text-5xl text-foreground mb-4 tracking-wide font-normal">
             Get In Touch
           </h2>
-          <p className="font-body text-xl text-muted-foreground max-w-2xl mx-auto font-light">
+          <p className="font-body text-base md:text-lg text-muted-foreground max-w-2xl mx-auto font-medium">
             Ready to start your next project? Contact us today
           </p>
         </div>
@@ -113,7 +113,7 @@ const Contact = () => {
             <CardContent className="p-8">
               <form id="contact-form" onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
+                  <label htmlFor="name" className="block font-body text-sm font-medium text-foreground mb-2">
                     Your Name
                   </label>
                   <Input
@@ -126,7 +126,7 @@ const Contact = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+                  <label htmlFor="email" className="block font-body text-sm font-medium text-foreground mb-2">
                     Email Address
                   </label>
                   <Input
@@ -139,7 +139,7 @@ const Contact = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
+                  <label htmlFor="message" className="block font-body text-sm font-medium text-foreground mb-2">
                     Message
                   </label>
                   <Textarea
@@ -182,8 +182,8 @@ const Contact = () => {
                       <info.icon size={24} />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-lg mb-1">{info.title}</h3>
-                      <p className="text-muted-foreground group-hover:text-primary/80">
+                      <h3 className="font-heading text-lg font-normal mb-1">{info.title}</h3>
+                      <p className="font-body text-sm md:text-base text-muted-foreground group-hover:text-primary/80 font-medium">
                         {info.content}
                       </p>
                     </div>

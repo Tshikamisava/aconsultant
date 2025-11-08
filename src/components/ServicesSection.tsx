@@ -111,10 +111,10 @@ const ServicesSection = () => {
       <div className="absolute inset-0 bg-gradient-mesh opacity-20" />
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-16 animate-fade-in-up">
-          <h2 className="font-heading text-4xl md:text-5xl mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-wide">
+          <h2 className="font-heading text-4xl md:text-5xl mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-wide font-normal">
             Our Services
           </h2>
-          <p className="font-body text-xl text-muted-foreground max-w-3xl mx-auto font-light">
+          <p className="font-body text-base md:text-lg text-muted-foreground max-w-3xl mx-auto font-medium">
             Comprehensive engineering solutions tailored to your needs
           </p>
         </div>
@@ -138,11 +138,11 @@ const ServicesSection = () => {
                     <service.icon className="w-8 h-8 text-primary-foreground" />
                   ) : null}
                 </div>
-                <h3 className="text-xl font-semibold text-foreground group-hover:text-primary transition-colors">
+                <h3 className="font-heading text-xl font-normal text-foreground group-hover:text-primary transition-colors">
                   {service.title}
                 </h3>
               </div>
-              <p className="text-muted-foreground leading-relaxed">{service.description}</p>
+              <p className="font-body text-sm md:text-base text-muted-foreground leading-relaxed font-medium">{service.description}</p>
             </div>
           ))}
         </div>
@@ -198,17 +198,17 @@ const ServicesSection = () => {
           {/* Overlay Content */}
           <div className="absolute inset-0 bg-gradient-hero flex items-center justify-center">
             <div className="text-center text-primary-foreground px-6 animate-fade-in-up">
-              <h3 className="font-heading text-3xl md:text-4xl mb-4 tracking-wide">
+              <h3 className="font-heading text-3xl md:text-4xl mb-4 tracking-wide font-normal">
                 {slideshowImages[currentSlide].title}
               </h3>
-              <p className="font-body text-lg mb-6 text-primary-foreground/90 font-light">
+              <p className="font-body text-base md:text-lg mb-6 text-primary-foreground/90 font-medium">
                 {slideshowImages[currentSlide].description}
               </p>
               <div className="mt-8">
-                <h4 className="font-heading text-2xl md:text-3xl mb-2 tracking-wide">
+                <h4 className="font-heading text-2xl md:text-3xl mb-2 tracking-wide font-normal">
                   Ready to Start Your Project?
                 </h4>
-                <p className="font-body text-base text-primary-foreground/80 font-light">
+                <p className="font-body text-sm md:text-base text-primary-foreground/80 font-medium">
                   Let's discuss how we can help bring your engineering vision to life
                 </p>
               </div>
