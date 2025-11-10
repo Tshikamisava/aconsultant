@@ -2,6 +2,7 @@ import emailjs from '@emailjs/browser';
 
 interface ContactFormData {
   from_name: string;
+  company?: string;
   from_email: string;
   message: string;
 }
@@ -111,12 +112,13 @@ class EmailService {
       
       // Sender info
       from_name: formData.from_name.trim(),
+      company: formData.company?.trim() || 'Not specified',
       from_email: formData.from_email.trim(),
       reply_to: formData.from_email.trim(),
       
       // Message content
       message: formData.message.trim(),
-      subject: `New Contact Form Message from ${formData.from_name.trim()}`,
+      subject: `New Contact Form Message from ${formData.from_name.trim()}${formData.company ? ` (${formData.company.trim()})` : ''}`,
       
       // Timestamps
       current_time: now.toLocaleString('en-US', {
@@ -320,6 +322,7 @@ class EmailService {
   async testEmailService(): Promise<EmailResponse> {
     const testData: ContactFormData = {
       from_name: 'Test User',
+      company: 'Test Company',
       from_email: 'test@example.com',
       message: 'This is a test message from the email service.'
     };
