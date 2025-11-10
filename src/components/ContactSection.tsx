@@ -84,7 +84,13 @@ const Contact = () => {
     {
       icon: Mail,
       title: "Email Us",
-      content: "info@aconsultant.co.za",
+      content: (
+        <>
+          info@aconsultant.co.za
+          <br />
+          thato@aconsultant.co.za
+        </>
+      ),
       link: "mailto:info@aconsultant.co.za",
     },
     {
