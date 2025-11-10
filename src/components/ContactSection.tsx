@@ -10,6 +10,7 @@ import emailService from "@/services/emailService";
 const Contact = () => {
   const [formData, setFormData] = useState({
     from_name: '',
+    company: '',
     from_email: '',
     message: ''
   });
@@ -28,7 +29,7 @@ const Contact = () => {
     
     // Basic validation
     if (!formData.from_name || !formData.from_email || !formData.message) {
-      toast.error("Please fill in all fields.");
+      toast.error("Please fill in all required fields.");
       return;
     }
 
@@ -59,6 +60,7 @@ const Contact = () => {
         // Reset form on success
         setFormData({
           from_name: '',
+          company: '',
           from_email: '',
           message: ''
         });
@@ -129,6 +131,20 @@ const Contact = () => {
                     placeholder="John Doe"
                     required
                     value={formData.from_name}
+                    onChange={handleInputChange}
+                    className="w-full"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="company" className="block font-body text-sm font-medium text-foreground mb-2">
+                    Company <span className="text-muted-foreground text-xs">(Optional)</span>
+                  </label>
+                  <Input
+                    id="company"
+                    name="company"
+                    type="text"
+                    placeholder="Your Company Name"
+                    value={formData.company}
                     onChange={handleInputChange}
                     className="w-full"
                   />
@@ -207,13 +223,10 @@ const Contact = () => {
                   variant="secondary" 
                   className="bg-white text-primary hover:bg-white/90"
                   onClick={() => {
-                    const form = document.getElementById('contact-form');
-                    form?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    // Focus on the first input after scrolling
-                    setTimeout(() => {
-                      const firstInput = form?.querySelector('input[name="from_name"]') as HTMLInputElement;
-                      firstInput?.focus();
-                    }, 500);
+                    const subject = "Consultation Request - A Consultant";
+                    const body = "Hello,%0D%0A%0D%0AI would like to schedule a consultation to discuss my project needs.%0D%0A%0D%0AProject Details:%0D%0A- Type: %0D%0A- Timeline: %0D%0A- Budget: %0D%0A- Additional Requirements: %0D%0A%0D%0APlease let me know your availability.%0D%0A%0D%0AThank you!";
+                    const mailtoLink = `mailto:info@aconsultant.co.za?subject=${subject}&body=${body}`;
+                    window.location.href = mailtoLink;
                   }}
                 >
                   Schedule a Consultation

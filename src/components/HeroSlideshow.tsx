@@ -4,12 +4,13 @@ import { Button } from "@/components/ui/button";
 import hero from "@/assets/hero.jpg";
 import hero2 from "@/assets/hero-2.jpg";
 import hero3 from "@/assets/hero-3.jpg";
+import hero4 from "@/assets/hero-1.jpg";
 
 const slides = [
   {
     image: hero,
-    title: "Engineering Excellence",
-    subtitle: "Precision in every design",
+    title: "",
+    subtitle: "",
   },
   {
     image: hero2,
@@ -20,6 +21,11 @@ const slides = [
     image: hero3,
     title: "Quality You Can Trust",
     subtitle: "Delivering results that matter",
+  },
+   {
+    image: hero4,
+    title: "Engineering Excellence",
+    subtitle: "Precision in every design",
   },
 ];
 
@@ -82,13 +88,15 @@ const HeroSlideshow = () => {
             <p className="font-body text-base md:text-lg lg:text-xl mb-8 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] animate-fade-in-up [animation-delay:200ms] [animation-fill-mode:forwards] font-medium leading-relaxed">
             {slides[currentSlide].subtitle}
             </p>
-            <Button
-            size="lg"
-            onClick={scrollToAbout}
-            className="bg-primary text-white hover:bg-primary/90 hover:scale-105 shadow-glow text-lg px-8 py-6 transition-all duration-300 animate-fade-in-up [animation-delay:400ms] [animation-fill-mode:forwards] font-body font-medium"
-            >
-            Discover More
-            </Button>
+            {slides[currentSlide].title && (
+                  <Button
+                  size="lg"
+                  onClick={scrollToAbout}
+                  className="bg-primary text-white hover:bg-primary/90 hover:scale-105 shadow-glow text-lg px-8 py-6 transition-all duration-300 animate-fade-in-up [animation-delay:400ms] [animation-fill-mode:forwards] font-body font-medium"
+                  >
+                  Discover More
+                  </Button>
+                  )}
         </div>
       </div>
 
